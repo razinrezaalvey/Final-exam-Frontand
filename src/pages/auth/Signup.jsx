@@ -1,6 +1,8 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../services/Api";
+import toast from "react-hot-toast";
 import {
     Package,
     User,
@@ -16,6 +18,7 @@ import {
 } from "lucide-react";
 
 const Signup = () => {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -74,7 +77,6 @@ const Signup = () => {
         setLoading(true);
 
         try {
-            // TODO: Connect this form to FastAPI registration endpoint.
             const payload = {
                 full_name: formData.full_name.trim(),
                 email: formData.email.trim().toLowerCase(),
@@ -83,9 +85,12 @@ const Signup = () => {
                 password: formData.password,
             };
 
-            console.log("Validated registration payload:", payload);
-
-            alert("Form validation successful! Backend API connection is pending.");
+            await api.post("/api/v1/auth/register", payload);
+            toast.success("Account created successfully! Please log in.");
+            navigate("/login");
+        } catch (error) {
+            const msg = error?.response?.data?.detail || "Registration failed. Please try again.";
+            toast.error(msg);
         } finally {
             setLoading(false);
         }
