@@ -154,6 +154,7 @@ const BookParcel = () => {
     Document: 'document',
     Electronics: 'small_package',
     Clothing: 'small_package',
+    Food: 'perishable',
     'Fragile Item': 'fragile',
     Other: 'medium_package',
   };
@@ -537,6 +538,9 @@ const BookParcel = () => {
                       placeholder="Enter collection amount"
                       icon={Calculator}
                       type="number"
+                      value={formData.codAmount}
+                      onChange={handleChange}
+                      error={errors.codAmount}
                     />
                   </div>
                 )}
@@ -545,9 +549,10 @@ const BookParcel = () => {
               {/* Submit */}
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-3 rounded-xl bg-emerald-600 py-4 font-bold text-white shadow-lg shadow-emerald-600/20 transition hover:bg-emerald-700"
+                disabled={submitting}
+                className="flex w-full items-center justify-center gap-3 rounded-xl bg-emerald-600 py-4 font-bold text-white shadow-lg shadow-emerald-600/20 transition hover:bg-emerald-700 disabled:opacity-60"
               >
-                Confirm Booking <ArrowRight size={20} />
+                {submitting ? 'Booking Parcel...' : 'Confirm Booking'} <ArrowRight size={20} />
               </button>
             </div>
 
