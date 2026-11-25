@@ -41,7 +41,7 @@ const Signup = () => {
         }));
     };
 
-    // Basic password strength indicator
+
     const getPasswordStrength = (password) => {
         let score = 0;
 
@@ -104,7 +104,7 @@ const Signup = () => {
 
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100">
 
-                {/* Left Information Section */}
+
                 <div className="hidden lg:flex flex-col justify-between bg-slate-950 p-12 relative overflow-hidden">
 
                     <div className="absolute w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl -top-20 -right-20" />
@@ -157,7 +157,7 @@ const Signup = () => {
                     </div>
                 </div>
 
-                {/* Signup Form */}
+
                 <div className="p-6 sm:p-10 lg:p-12">
 
                     <div className="lg:hidden flex items-center justify-center gap-2 mb-8">
@@ -185,7 +185,7 @@ const Signup = () => {
 
                         <form onSubmit={handleSubmit} className="space-y-5">
 
-                            {/* Full Name */}
+
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
                                     Full Name
@@ -208,7 +208,7 @@ const Signup = () => {
                                 </div>
                             </div>
 
-                            {/* Email */}
+
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
                                     Email Address
@@ -231,7 +231,7 @@ const Signup = () => {
                                 </div>
                             </div>
 
-                            {/* Phone */}
+
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
                                     Phone Number
@@ -254,7 +254,7 @@ const Signup = () => {
                                 </div>
                             </div>
 
-                            {/* Account Role */}
+
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
                                     Account Type
@@ -301,7 +301,7 @@ const Signup = () => {
                                 </p>
                             </div>
 
-                            {/* Password */}
+
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
                                     Password
@@ -333,7 +333,7 @@ const Signup = () => {
                                     </button>
                                 </div>
 
-                                {/* Password Strength */}
+
                                 {formData.password && (
                                     <div className="mt-3">
                                         <div className="flex gap-1.5">
@@ -366,7 +366,7 @@ const Signup = () => {
                                 )}
                             </div>
 
-                            {/* Confirm Password */}
+
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
                                     Confirm Password
@@ -410,7 +410,7 @@ const Signup = () => {
                                 )}
                             </div>
 
-                            {/* Terms */}
+
                             <label className="flex items-start gap-3 text-sm text-gray-500">
                                 <input
                                     type="checkbox"
@@ -429,7 +429,7 @@ const Signup = () => {
                                 </span>
                             </label>
 
-                            {/* Submit */}
+
                             <button
                                 type="submit"
                                 disabled={loading}

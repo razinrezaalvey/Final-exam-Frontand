@@ -65,7 +65,7 @@ const Home = () => {
     return (
         <div className="overflow-hidden bg-white">
 
-            {/* Hero Section */}
+
             <section className="bg-gradient-to-br from-emerald-50 via-white to-green-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 grid lg:grid-cols-2 gap-14 items-center">
 
@@ -114,7 +114,7 @@ const Home = () => {
                         </div>
                     </div>
 
-                    {/* Hero Illustration */}
+
                     <div className="relative">
                         <div className="absolute inset-0 bg-emerald-200/30 rounded-full blur-3xl" />
 
@@ -137,7 +137,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Parcel Tracking */}
+
             <section className="max-w-5xl mx-auto px-4 py-16">
                 <div className="bg-slate-950 rounded-3xl p-7 sm:p-12 text-center">
                     <Package size={38} className="text-emerald-400 mx-auto mb-4" />
@@ -179,7 +179,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Services */}
+
             <section className="bg-gray-50 py-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -230,7 +230,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Why Choose Us */}
+
             <section className="py-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -268,7 +268,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* How It Works */}
+
             <section className="bg-emerald-50 py-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -297,7 +297,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Call To Action */}
+
             <section className="py-20 px-4">
                 <div className="max-w-7xl mx-auto bg-slate-950 rounded-3xl px-6 py-14 sm:p-16 text-center">
                     <ShoppingBag size={38} className="text-emerald-400 mx-auto mb-5" />

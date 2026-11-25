@@ -126,7 +126,7 @@ const Contact = () => {
         setLoading(true);
 
         try {
-            // TODO: Connect with FastAPI contact endpoint.
+
             console.log("Contact form payload:", payload);
 
             await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -152,7 +152,7 @@ const Contact = () => {
     return (
         <div className="bg-white overflow-hidden">
 
-            {/* Hero Section */}
+
             <section className="relative bg-slate-950 text-white py-24 lg:py-28 px-4">
 
                 <div className="absolute w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl -top-40 -right-20" />
@@ -317,7 +317,7 @@ const Contact = () => {
 
                     </div>
 
-                    {/* Form */}
+
                     <div className="bg-white rounded-3xl p-6 sm:p-9 shadow-lg border border-gray-100">
 
                         <div className="mb-8">
@@ -442,7 +442,7 @@ const Contact = () => {
 
             </section>
 
-            {/* FAQ Section */}
+
             <section className="py-20 lg:py-28 px-4">
 
                 <div className="max-w-4xl mx-auto">
@@ -510,7 +510,7 @@ const Contact = () => {
 
             </section>
 
-            {/* Bottom CTA */}
+
             <section className="px-4 pb-20">
 
                 <div className="max-w-7xl mx-auto bg-slate-950 rounded-3xl p-9 sm:p-14 text-center">

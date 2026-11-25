@@ -149,7 +149,7 @@ const CustomerProfile = () => {
         <div className="min-h-screen bg-slate-50 p-4 md:p-8">
             <div className="max-w-6xl mx-auto">
 
-                {/* Header */}
+
                 <div className="mb-8">
                     <Link
                         to="/customer/dashboard"
@@ -197,7 +197,7 @@ const CustomerProfile = () => {
                     </div>
                 </div>
 
-                {/* Profile Overview */}
+
                 <div className="bg-slate-950 rounded-2xl p-6 md:p-8 text-white mb-6">
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                         <div className="relative">
@@ -243,7 +243,7 @@ const CustomerProfile = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                    {/* Profile Form */}
+
                     <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8">
                         <div className="flex items-center justify-between mb-7">
                             <div>
@@ -335,10 +335,10 @@ const CustomerProfile = () => {
                         </form>
                     </div>
 
-                    {/* Account Sidebar */}
+
                     <div className="space-y-6">
 
-                        {/* Account Status */}
+
                         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                             <h3 className="font-bold text-slate-900 mb-5">
                                 Account Overview
@@ -376,7 +376,7 @@ const CustomerProfile = () => {
                             </div>
                         </div>
 
-                        {/* Quick Links */}
+
                         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                             <h3 className="font-bold text-slate-900 mb-4">
                                 Quick Links
@@ -421,7 +421,7 @@ const CustomerProfile = () => {
                             </div>
                         </div>
 
-                        {/* Security Card */}
+
                         <div className="bg-emerald-600 rounded-2xl p-6 text-white">
                             <ShieldCheck size={30} className="mb-4" />
 

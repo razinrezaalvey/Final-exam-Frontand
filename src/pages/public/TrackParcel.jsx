@@ -127,7 +127,7 @@ const TrackParcel = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Hero */}
+
       <section className="relative overflow-hidden bg-slate-950 px-4 py-20 text-white md:py-28">
         <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-emerald-500/20 blur-3xl"></div>
         <div className="absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-emerald-400/10 blur-3xl"></div>
@@ -150,7 +150,7 @@ const TrackParcel = () => {
             and discover where your parcel is right now.
           </p>
 
-          {/* Tracking Form */}
+
           <form
             onSubmit={handleTrack}
             className="mx-auto mt-10 flex max-w-2xl flex-col gap-3 rounded-2xl bg-white p-3 shadow-2xl sm:flex-row"
@@ -189,12 +189,12 @@ const TrackParcel = () => {
         </div>
       </section>
 
-      {/* Tracking Result */}
+
       {parcel && (
         <section className="px-4 py-16">
           <div className="mx-auto max-w-6xl">
 
-            {/* Result Header */}
+
             <div className="mb-8 flex flex-col justify-between gap-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:flex-row md:items-center">
               <div>
                 <p className="text-sm font-medium text-slate-500">
@@ -214,7 +214,7 @@ const TrackParcel = () => {
               </div>
             </div>
 
-            {/* Delivery Overview */}
+
             <div className="mb-8 grid gap-5 md:grid-cols-3">
               <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
@@ -247,7 +247,7 @@ const TrackParcel = () => {
               </div>
             </div>
 
-            {/* Timeline */}
+
             <div className="grid gap-8 lg:grid-cols-3">
 
               <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:col-span-2 md:p-8">
@@ -312,7 +312,7 @@ const TrackParcel = () => {
                 </div>
               </div>
 
-              {/* Shipment Details */}
+
               <div className="space-y-6">
                 <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                   <h3 className="mb-6 text-xl font-bold text-slate-900">
@@ -368,7 +368,7 @@ const TrackParcel = () => {
         </section>
       )}
 
-      {/* Bottom Help Section */}
+
       {!parcel && (
         <section className="px-4 py-16">
           <div className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm md:p-12">

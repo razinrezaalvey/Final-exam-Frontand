@@ -117,7 +117,7 @@ const AgentTasks = () => {
     <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="mx-auto max-w-7xl space-y-7">
 
-        {/* Header */}
+
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <p className="text-sm font-semibold text-emerald-600">
@@ -137,7 +137,7 @@ const AgentTasks = () => {
           </div>
         </div>
 
-        {/* Stats */}
+
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {stats.map((stat) => {
             const Icon = stat.icon;
@@ -164,7 +164,7 @@ const AgentTasks = () => {
           })}
         </div>
 
-        {/* Task List */}
+
         <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
 
           <div className="border-b border-slate-100 p-5 md:p-6">
@@ -193,7 +193,7 @@ const AgentTasks = () => {
               </div>
             </div>
 
-            {/* Filters */}
+
             <div className="mt-5 flex flex-wrap items-center gap-2">
               <Filter size={17} className="mr-1 text-slate-400" />
 
@@ -213,7 +213,7 @@ const AgentTasks = () => {
             </div>
           </div>
 
-          {/* Desktop Table */}
+
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full text-left">
               <thead className="bg-slate-50 text-xs uppercase text-slate-500">
@@ -288,7 +288,7 @@ const AgentTasks = () => {
             </table>
           </div>
 
-          {/* Mobile Cards */}
+
           <div className="space-y-4 p-4 md:hidden">
             {filteredTasks.map((task) => (
               <div
@@ -351,7 +351,7 @@ const AgentTasks = () => {
             ))}
           </div>
 
-          {/* Empty State */}
+
           {filteredTasks.length === 0 && (
             <div className="px-5 py-16 text-center">
               <Package size={40} className="mx-auto text-slate-300" />

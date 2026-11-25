@@ -25,11 +25,11 @@ const ForgotPassword = () => {
         setLoading(true);
 
         try {
-            // TODO: Connect with FastAPI password reset endpoint.
+
 
             console.log("Password reset requested for:", email.trim());
 
-            // Temporary frontend demonstration.
+
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
             setSuccess(true);
@@ -45,7 +45,7 @@ const ForgotPassword = () => {
 
             <div className="max-w-6xl w-full mx-auto grid lg:grid-cols-2 bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100">
 
-                {/* Left Information Section */}
+
                 <div className="hidden lg:flex flex-col justify-between bg-slate-950 p-12 relative overflow-hidden">
 
                     <div className="absolute w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl -top-20 -right-20" />

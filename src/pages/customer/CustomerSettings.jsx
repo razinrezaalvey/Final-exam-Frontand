@@ -121,8 +121,8 @@ const CustomerSettings = () => {
     );
 
     if (confirmed) {
-      // Frontend demo only.
-      // Connect authentication logout when backend is ready.
+
+
       navigate("/login");
       toast.success("Demo logout successful");
     }
@@ -159,7 +159,7 @@ const CustomerSettings = () => {
     <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
+
         <div className="mb-8">
           <Link
             to="/customer/dashboard"
@@ -188,10 +188,10 @@ const CustomerSettings = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          {/* Main Settings */}
+
           <div className="lg:col-span-2 space-y-6">
 
-            {/* Change Password */}
+
             <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-3 bg-emerald-50 rounded-xl">
@@ -215,7 +215,7 @@ const CustomerSettings = () => {
               <form onSubmit={handlePasswordSubmit}>
                 <div className="space-y-5">
 
-                  {/* Current Password */}
+
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Current Password
@@ -245,7 +245,7 @@ const CustomerSettings = () => {
                     </div>
                   </div>
 
-                  {/* New Password */}
+
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-2">
                       New Password
@@ -265,7 +265,7 @@ const CustomerSettings = () => {
                     </p>
                   </div>
 
-                  {/* Confirm Password */}
+
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-2">
                       Confirm New Password
@@ -308,7 +308,7 @@ const CustomerSettings = () => {
               </form>
             </div>
 
-            {/* Notifications */}
+
             <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-3 bg-blue-50 rounded-xl">
@@ -369,7 +369,7 @@ const CustomerSettings = () => {
               </div>
             </div>
 
-            {/* Account Preferences */}
+
             <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-100 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-3 bg-amber-50 rounded-xl">
@@ -435,10 +435,10 @@ const CustomerSettings = () => {
             </div>
           </div>
 
-          {/* Right Sidebar */}
+
           <div className="space-y-6">
 
-            {/* Security Card */}
+
             <div className="bg-slate-950 rounded-2xl p-6 text-white">
               <ShieldCheck size={32} className="text-emerald-400 mb-4" />
 
@@ -456,7 +456,7 @@ const CustomerSettings = () => {
               </div>
             </div>
 
-            {/* Account Links */}
+
             <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
               <h3 className="font-bold text-slate-900 mb-4">
                 Account Management
@@ -489,7 +489,7 @@ const CustomerSettings = () => {
               </div>
             </div>
 
-            {/* Logout */}
+
             <div className="bg-white rounded-2xl p-6 border border-red-100 shadow-sm">
               <div className="flex items-center gap-3 mb-3">
                 <div className="p-3 bg-red-50 rounded-xl">

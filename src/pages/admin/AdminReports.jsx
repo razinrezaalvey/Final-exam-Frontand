@@ -177,7 +177,7 @@ const AdminReports = () => {
     <div className="min-h-screen bg-slate-100 p-4 md:p-6 lg:p-8">
       <div className="mx-auto max-w-7xl space-y-7">
 
-        {/* Header */}
+
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div>
             <p className="mb-2 text-sm font-semibold text-emerald-600">
@@ -207,7 +207,7 @@ const AdminReports = () => {
           </div>
         </div>
 
-        {/* Stats */}
+
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {stats.map((stat) => {
             const Icon = stat.icon;
@@ -256,10 +256,10 @@ const AdminReports = () => {
           })}
         </div>
 
-        {/* Revenue Chart and Status */}
+
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
 
-          {/* Revenue Chart */}
+
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm xl:col-span-2 md:p-6">
             <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
               <div>
@@ -338,7 +338,7 @@ const AdminReports = () => {
             </div>
           </div>
 
-          {/* Parcel Status */}
+
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
             <h2 className="text-lg font-bold text-slate-900">
               Parcel Overview
@@ -392,10 +392,10 @@ const AdminReports = () => {
           </div>
         </div>
 
-        {/* Performance and Agents */}
+
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
 
-          {/* Delivery Performance */}
+
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
             <div className="flex items-center gap-3">
               <div className="rounded-xl bg-blue-50 p-3 text-blue-600">
@@ -466,7 +466,7 @@ const AdminReports = () => {
             </div>
           </div>
 
-          {/* Top Agents */}
+
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -512,7 +512,7 @@ const AdminReports = () => {
           </div>
         </div>
 
-        {/* Transactions */}
+
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <div className="flex flex-col justify-between gap-4 border-b border-slate-100 p-5 sm:flex-row sm:items-center">
             <div>

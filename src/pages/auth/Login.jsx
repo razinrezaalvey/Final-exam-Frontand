@@ -61,7 +61,7 @@ const Login = () => {
             login(user, access_token);
             toast.success(`Welcome back, ${user.full_name}!`);
 
-            // Redirect based on role
+
             if (user.role === "admin") navigate("/admin/dashboard");
             else if (user.role === "agent") navigate("/agent/dashboard");
             else navigate("/customer/dashboard");
@@ -87,7 +87,7 @@ const Login = () => {
 
             <div className="max-w-6xl mx-auto grid lg:grid-cols-2 bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100">
 
-                {/* Left Information Section */}
+
                 <div className="hidden lg:flex flex-col justify-between bg-slate-950 p-12 relative overflow-hidden">
 
                     <div className="absolute w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl -top-20 -right-20" />
@@ -145,12 +145,12 @@ const Login = () => {
 
                 </div>
 
-                {/* Right Login Form */}
+
                 <div className="p-6 sm:p-10 lg:p-16 flex items-center">
 
                     <div className="max-w-md w-full mx-auto">
 
-                        {/* Mobile Logo */}
+
                         <div className="lg:hidden flex items-center justify-center gap-2 mb-10">
                             <Package className="text-emerald-600" size={30} />
 
@@ -182,7 +182,7 @@ const Login = () => {
                                 </div>
                             )}
 
-                            {/* Email */}
+
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
                                     Email Address
@@ -208,7 +208,7 @@ const Login = () => {
                                 </div>
                             </div>
 
-                            {/* Password */}
+
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-2">
                                     Password
@@ -249,7 +249,7 @@ const Login = () => {
                                 </div>
                             </div>
 
-                            {/* Remember Me & Forgot Password */}
+
                             <div className="flex flex-wrap items-center justify-between gap-3">
 
                                 <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
@@ -272,7 +272,7 @@ const Login = () => {
 
                             </div>
 
-                            {/* Submit Button */}
+
                             <button
                                 type="submit"
                                 disabled={loading}
@@ -285,7 +285,7 @@ const Login = () => {
 
                         </form>
 
-                        {/* Signup Link */}
+
                         <div className="relative my-8">
                             <div className="border-t border-gray-200" />
 

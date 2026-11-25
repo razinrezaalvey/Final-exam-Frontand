@@ -49,7 +49,7 @@ const MyParcels = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // Calculate statistics
+
   const totalParcels = parcels.length;
 
   const pendingParcels = parcels.filter(
@@ -64,7 +64,7 @@ const MyParcels = () => {
     (parcel) => parcel.status === "Delivered"
   ).length;
 
-  // Filter and search parcels
+
   const filteredParcels = useMemo(() => {
     return parcels.filter((parcel) => {
       const matchesSearch =
@@ -145,7 +145,7 @@ const MyParcels = () => {
     <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
 
-        {/* Header */}
+
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
             <p className="text-sm font-semibold text-emerald-600 mb-2">
@@ -170,7 +170,7 @@ const MyParcels = () => {
           </Link>
         </div>
 
-        {/* Statistics */}
+
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
@@ -205,11 +205,11 @@ const MyParcels = () => {
           })}
         </div>
 
-        {/* Search and Filters */}
+
         <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm mb-6">
           <div className="flex flex-col lg:flex-row gap-4 lg:items-center justify-between">
 
-            {/* Search */}
+
             <div className="relative w-full lg:max-w-md">
               <Search
                 size={19}
@@ -234,7 +234,7 @@ const MyParcels = () => {
               )}
             </div>
 
-            {/* Filters */}
+
             <div className="flex flex-wrap items-center gap-2">
               <span className="flex items-center gap-1 text-sm text-slate-500 mr-1">
                 <Filter size={16} />
@@ -258,7 +258,7 @@ const MyParcels = () => {
           </div>
         </div>
 
-        {/* Desktop Table */}
+
         <div className="hidden md:block bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
           <div className="p-6 border-b border-slate-100">
             <h2 className="text-xl font-bold text-slate-900">
@@ -356,7 +356,7 @@ const MyParcels = () => {
           )}
         </div>
 
-        {/* Mobile Parcel Cards */}
+
         <div className="md:hidden space-y-4">
           <div>
             <h2 className="text-xl font-bold text-slate-900">
@@ -442,7 +442,7 @@ const MyParcels = () => {
           )}
         </div>
 
-        {/* Demo Notice */}
+
         <div className="mt-6 bg-emerald-50 border border-emerald-100 rounded-xl p-4">
           <p className="text-sm text-emerald-800">
             <strong>Demo Mode:</strong> These shipment records are sample data.
@@ -454,7 +454,7 @@ const MyParcels = () => {
   );
 };
 
-// Empty State Component
+
 const EmptyState = ({ onClear }) => {
   return (
     <div className="text-center py-12 px-5 bg-white rounded-2xl">

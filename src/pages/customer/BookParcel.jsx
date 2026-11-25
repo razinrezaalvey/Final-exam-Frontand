@@ -97,7 +97,7 @@ const BookParcel = () => {
     }));
   };
 
-  // Demo delivery charge calculation
+
   const deliveryCharge = useMemo(() => {
     const weight = Math.max(0, Number(formData.weight) || 0);
 
@@ -256,7 +256,7 @@ const BookParcel = () => {
   return (
     <div className="min-h-screen bg-slate-50">
 
-      {/* Header */}
+
       <div className="border-b border-slate-200 bg-white px-4 py-5 md:px-8">
         <div className="mx-auto flex max-w-7xl items-center gap-3">
           <Link
@@ -279,7 +279,7 @@ const BookParcel = () => {
 
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-8">
 
-        {/* Page Intro */}
+
         <div className="mb-8">
           <p className="font-bold uppercase tracking-widest text-emerald-600">
             SwiftCourier Services
@@ -296,10 +296,10 @@ const BookParcel = () => {
         <form onSubmit={handleSubmit} noValidate>
           <div className="grid items-start gap-8 lg:grid-cols-3">
 
-            {/* Main Form */}
+
             <div className="space-y-7 lg:col-span-2">
 
-              {/* Sender Information */}
+
               <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
                 <div className="mb-7 flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">

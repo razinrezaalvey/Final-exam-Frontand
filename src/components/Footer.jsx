@@ -18,7 +18,7 @@ const Footer = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
-                    {/* Company */}
+
                     <div>
                         <Link to="/" className="flex items-center gap-2 mb-5">
                             <div className="bg-emerald-600 p-2.5 rounded-xl">
@@ -48,7 +48,7 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Quick Links */}
+
                     <div>
                         <h3 className="text-white font-bold text-lg mb-6">
                             Quick Links
@@ -63,7 +63,7 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Services */}
+
                     <div>
                         <h3 className="text-white font-bold text-lg mb-6">
                             Our Services
@@ -78,7 +78,7 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Contact */}
+
                     <div>
                         <h3 className="text-white font-bold text-lg mb-6">
                             Contact Us
@@ -110,7 +110,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Bottom Footer */}
+
                 <div className="border-t border-slate-800 mt-14 pt-7 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
                     <p>
                         © {new Date().getFullYear()} SwiftCourier. All rights reserved.

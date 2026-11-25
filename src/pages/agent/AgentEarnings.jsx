@@ -137,7 +137,7 @@ const AgentEarnings = () => {
     <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="mx-auto max-w-7xl space-y-7">
 
-        {/* Header */}
+
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <p className="text-sm font-semibold text-emerald-600">
@@ -160,7 +160,7 @@ const AgentEarnings = () => {
           </button>
         </div>
 
-        {/* Earnings Hero */}
+
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-emerald-950 p-6 text-white shadow-xl md:p-9">
           <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
           <div className="absolute -bottom-20 right-1/3 h-48 w-48 rounded-full bg-emerald-400/10 blur-3xl" />
@@ -210,7 +210,7 @@ const AgentEarnings = () => {
           </div>
         </div>
 
-        {/* Stats */}
+
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {stats.map((stat) => {
             const Icon = stat.icon;
@@ -243,7 +243,7 @@ const AgentEarnings = () => {
           })}
         </div>
 
-        {/* Payment Summary */}
+
         <div className="grid gap-5 lg:grid-cols-2">
           <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
             <div className="flex items-center gap-3">
@@ -323,7 +323,7 @@ const AgentEarnings = () => {
           </div>
         </div>
 
-        {/* Transaction History */}
+
         <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
           <div className="border-b border-slate-100 p-5 md:p-6">
             <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
@@ -368,7 +368,7 @@ const AgentEarnings = () => {
             </div>
           </div>
 
-          {/* Desktop Table */}
+
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full text-left">
               <thead className="bg-slate-50 text-xs uppercase text-slate-500">
@@ -417,7 +417,7 @@ const AgentEarnings = () => {
             </table>
           </div>
 
-          {/* Mobile Cards */}
+
           <div className="space-y-3 p-4 md:hidden">
             {filteredEarnings.map((item) => (
               <div

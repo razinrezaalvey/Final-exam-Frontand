@@ -321,7 +321,7 @@ const AdminParcels = () => {
     <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="mx-auto max-w-7xl space-y-7">
 
-        {/* Header */}
+
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <p className="text-sm font-semibold text-emerald-600">
@@ -344,7 +344,7 @@ const AdminParcels = () => {
           </Link>
         </div>
 
-        {/* Stats */}
+
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
           <StatCard
             title="Total Parcels"
@@ -392,7 +392,7 @@ const AdminParcels = () => {
           />
         </div>
 
-        {/* Search and Filters */}
+
         <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
             <div className="relative flex-1">
@@ -444,7 +444,7 @@ const AdminParcels = () => {
           </p>
         </div>
 
-        {/* Desktop Table */}
+
         <div className="hidden overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm lg:block">
           <div className="border-b border-slate-100 p-6">
             <h2 className="font-bold text-slate-900">All Parcels</h2>
@@ -583,7 +583,7 @@ const AdminParcels = () => {
           </div>
         </div>
 
-        {/* Mobile Cards */}
+
         <div className="space-y-4 lg:hidden">
           <div>
             <h2 className="font-bold text-slate-900">All Parcels</h2>
@@ -718,7 +718,7 @@ const AdminParcels = () => {
         </div>
       </div>
 
-      {/* Parcel Details Modal */}
+
       {selectedParcel && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4"
@@ -863,7 +863,7 @@ const AdminParcels = () => {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
+
       {deleteParcelId && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/60 p-4">
           <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">

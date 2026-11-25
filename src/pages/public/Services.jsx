@@ -122,7 +122,7 @@ const Services = () => {
     return (
         <div className="bg-white overflow-hidden">
 
-            {/* Hero Section */}
+
             <section className="relative bg-slate-950 text-white py-24 lg:py-32 px-4">
 
                 <div className="absolute w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl -top-40 -right-20" />
@@ -170,7 +170,7 @@ const Services = () => {
                 </div>
             </section>
 
-            {/* Services Cards */}
+
             <section className="py-20 lg:py-28 px-4">
 
                 <div className="max-w-7xl mx-auto">
@@ -264,7 +264,7 @@ const Services = () => {
 
             </section>
 
-            {/* Why Choose Us */}
+
             <section className="bg-gray-50 py-20 lg:py-28 px-4">
 
                 <div className="max-w-7xl mx-auto">
@@ -324,7 +324,7 @@ const Services = () => {
 
             </section>
 
-            {/* CTA Section */}
+
             <section className="px-4 py-20 lg:py-28">
 
                 <div className="max-w-7xl mx-auto bg-emerald-600 rounded-3xl p-9 sm:p-14 lg:p-16 text-center relative overflow-hidden">

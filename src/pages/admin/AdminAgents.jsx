@@ -230,7 +230,7 @@ const AdminAgents = () => {
   return (
     <div className="min-h-screen bg-slate-100 p-4 md:p-6 lg:p-8">
       <div className="mx-auto max-w-7xl space-y-7">
-        {/* Header */}
+
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div>
             <p className="mb-2 text-sm font-semibold text-emerald-600">
@@ -250,7 +250,7 @@ const AdminAgents = () => {
           </div>
         </div>
 
-        {/* Stats */}
+
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {stats.map((stat) => {
             const Icon = stat.icon;
@@ -279,7 +279,7 @@ const AdminAgents = () => {
           })}
         </div>
 
-        {/* Agent Table */}
+
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <div className="flex flex-col gap-4 border-b border-slate-100 p-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
@@ -324,7 +324,7 @@ const AdminAgents = () => {
             </div>
           </div>
 
-          {/* Desktop Table */}
+
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[900px] text-left">
               <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
@@ -463,7 +463,7 @@ const AdminAgents = () => {
             </table>
           </div>
 
-          {/* Mobile Cards */}
+
           <div className="space-y-3 p-4 md:hidden">
             {filteredAgents.map((agent) => (
               <div
@@ -573,7 +573,7 @@ const AdminAgents = () => {
         </div>
       </div>
 
-      {/* Agent Details Modal */}
+
       {selectedAgent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4">
           <div className="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
@@ -671,7 +671,7 @@ const AdminAgents = () => {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
+
       {deleteAgent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">

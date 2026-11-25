@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 
-// Input Component
+
 const InputField = ({
   label,
   value,
@@ -39,7 +39,7 @@ const InputField = ({
   </div>
 );
 
-// Toggle Component
+
 const Toggle = ({ checked, onChange, disabled = false }) => (
   <button
     type="button"
@@ -57,7 +57,7 @@ const Toggle = ({ checked, onChange, disabled = false }) => (
   </button>
 );
 
-// Action Buttons
+
 const ActionButtons = ({ editing, onEdit, onSave, onCancel }) => (
   <div className="flex flex-wrap gap-3">
     {editing ? (
@@ -93,7 +93,7 @@ const ActionButtons = ({ editing, onEdit, onSave, onCancel }) => (
   </div>
 );
 
-// Section Header
+
 const SectionHeader = ({
   title,
   description,
@@ -120,7 +120,7 @@ const SectionHeader = ({
   </div>
 );
 
-// Notification Row
+
 const NotificationRow = ({
   title,
   description,
@@ -149,7 +149,7 @@ const AdminSettings = () => {
 
   const { user } = useAuthContext();
 
-  // Admin Profile
+
   const [profile, setProfile] = useState({
     name: user?.full_name || "Admin",
     email: user?.email || "",
@@ -168,7 +168,7 @@ const AdminSettings = () => {
     }
   }, [user]);
 
-  // Company Information
+
   const [company, setCompany] = useState({
     name: "SwiftCourier",
     email: "support@swiftcourier.com",
@@ -176,7 +176,7 @@ const AdminSettings = () => {
     address: "Dhaka, Bangladesh",
   });
 
-  // Notifications
+
   const [notifications, setNotifications] = useState({
     newParcel: true,
     deliveryUpdate: true,
@@ -186,7 +186,7 @@ const AdminSettings = () => {
     smsNotification: false,
   });
 
-  // Security
+
   const [security, setSecurity] = useState({
     currentPassword: "",
     newPassword: "",
@@ -194,7 +194,7 @@ const AdminSettings = () => {
     twoFactor: false,
   });
 
-  // Delivery Settings
+
   const [delivery, setDelivery] = useState({
     insideDhaka: "60",
     outsideDhaka: "120",
@@ -214,7 +214,7 @@ const AdminSettings = () => {
     { id: "delivery", label: "Delivery Settings", icon: Truck },
   ];
 
-  // Get section data
+
   const getData = (tab) => {
     if (tab === "profile") return profile;
     if (tab === "company") return company;
@@ -223,7 +223,7 @@ const AdminSettings = () => {
     return {};
   };
 
-  // Update section data
+
   const setData = (tab, value) => {
     if (tab === "profile") setProfile(value);
     if (tab === "company") setCompany(value);
@@ -231,7 +231,7 @@ const AdminSettings = () => {
     if (tab === "delivery") setDelivery(value);
   };
 
-  // Update field
+
   const updateField = (setter, field, value) => {
     setter((prev) => ({
       ...prev,
@@ -239,7 +239,7 @@ const AdminSettings = () => {
     }));
   };
 
-  // Edit
+
   const handleEdit = (tab) => {
     setOriginalData((prev) => ({
       ...prev,
@@ -252,7 +252,7 @@ const AdminSettings = () => {
     }));
   };
 
-  // Cancel
+
   const handleCancel = (tab) => {
     if (originalData[tab]) {
       setData(tab, originalData[tab]);
@@ -264,7 +264,7 @@ const AdminSettings = () => {
     }));
   };
 
-  // Save
+
   const handleSave = (tab) => {
     if (tab === "security") {
       if (security.newPassword || security.confirmPassword || security.currentPassword) {
@@ -320,7 +320,7 @@ const AdminSettings = () => {
     <div className="min-h-screen bg-slate-50 p-4 sm:p-6 lg:p-8">
       <div className="mx-auto max-w-7xl">
 
-        {/* Page Header */}
+
         <div className="mb-8">
           <div className="flex items-center gap-3">
             <div className="rounded-2xl bg-emerald-100 p-3 text-emerald-700">
@@ -340,7 +340,7 @@ const AdminSettings = () => {
 
         <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
 
-          {/* Sidebar */}
+
           <div className="rounded-2xl border border-slate-100 bg-white p-3 shadow-sm lg:col-span-3">
             <h3 className="px-3 py-3 text-xs font-bold uppercase tracking-wider text-slate-400">
               Settings Menu
@@ -369,10 +369,10 @@ const AdminSettings = () => {
             </div>
           </div>
 
-          {/* Main Content */}
+
           <div className="min-w-0 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm sm:p-7 lg:col-span-9">
 
-            {/* Admin Profile */}
+
             {activeTab === "profile" && (
               <div>
                 <SectionHeader
@@ -441,7 +441,7 @@ const AdminSettings = () => {
               </div>
             )}
 
-            {/* Company Information */}
+
             {activeTab === "company" && (
               <div>
                 <SectionHeader
@@ -495,7 +495,7 @@ const AdminSettings = () => {
               </div>
             )}
 
-            {/* Notifications */}
+
             {activeTab === "notifications" && (
               <div>
                 <SectionHeader
@@ -562,7 +562,7 @@ const AdminSettings = () => {
               </div>
             )}
 
-            {/* Security Settings */}
+
             {activeTab === "security" && (
               <div>
                 <SectionHeader
@@ -653,7 +653,7 @@ const AdminSettings = () => {
               </div>
             )}
 
-            {/* Delivery Settings */}
+
             {activeTab === "delivery" && (
               <div>
                 <SectionHeader
@@ -746,7 +746,7 @@ const AdminSettings = () => {
               </div>
             )}
 
-            {/* Footer */}
+
             <div className="mt-8 flex items-center gap-2 border-t border-slate-100 pt-6 text-xs text-slate-400">
               <CheckCircle size={15} />
               <span>Frontend demo settings</span>

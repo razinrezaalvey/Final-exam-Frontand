@@ -155,7 +155,7 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-slate-50 lg:flex">
 
-      {/* Sidebar */}
+
       <aside className="hidden w-64 shrink-0 flex-col bg-slate-950 text-white lg:flex">
         <div className="flex h-20 items-center gap-3 border-b border-white/10 px-6">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500">
@@ -234,7 +234,7 @@ const AdminDashboard = () => {
           </nav>
         </div>
 
-        {/* Admin Profile */}
+
         <div className="border-t border-white/10 p-4">
           <div className="flex items-center gap-3 rounded-xl bg-white/5 p-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 font-bold">
@@ -257,10 +257,10 @@ const AdminDashboard = () => {
         </div>
       </aside>
 
-      {/* Main Content */}
+
       <main className="min-w-0 flex-1">
 
-        {/* Topbar */}
+
         <header className="sticky top-0 z-20 flex h-20 items-center justify-between border-b border-slate-200 bg-white/95 px-4 backdrop-blur md:px-8">
           <div className="flex items-center gap-3">
             <button className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:hidden">
@@ -298,7 +298,7 @@ const AdminDashboard = () => {
 
         <div className="space-y-7 p-4 md:p-8">
 
-          {/* Welcome Section */}
+
           <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-emerald-950 p-6 text-white md:p-8">
             <div className="absolute -right-10 -top-24 h-72 w-72 rounded-full bg-emerald-400/10 blur-3xl" />
 
@@ -339,7 +339,7 @@ const AdminDashboard = () => {
             </div>
           </section>
 
-          {/* Stats */}
+
           <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {stats.map((item) => {
               const Icon = item.icon;
@@ -376,10 +376,10 @@ const AdminDashboard = () => {
             })}
           </section>
 
-          {/* Charts */}
+
           <section className="grid gap-6 xl:grid-cols-3">
 
-            {/* Weekly Performance */}
+
             <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm xl:col-span-2">
               <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
                 <div>
@@ -435,7 +435,7 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            {/* Parcel Status */}
+
             <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
               <div>
                 <h2 className="font-bold text-slate-900">
@@ -485,7 +485,7 @@ const AdminDashboard = () => {
             </div>
           </section>
 
-          {/* Recent Parcels */}
+
           <section className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 p-6">
               <div>
@@ -555,10 +555,10 @@ const AdminDashboard = () => {
             </div>
           </section>
 
-          {/* Bottom Section */}
+
           <section className="grid gap-6 xl:grid-cols-2">
 
-            {/* Top Agents */}
+
             <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
               <div className="mb-6 flex items-center justify-between">
                 <div>
@@ -610,7 +610,7 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            {/* Quick Actions */}
+
             <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
               <div className="mb-6">
                 <h2 className="font-bold text-slate-900">
@@ -685,7 +685,7 @@ const AdminDashboard = () => {
             </div>
           </section>
 
-          {/* Footer */}
+
           <div className="flex flex-col justify-between gap-2 border-t border-slate-200 pt-5 text-xs text-slate-400 sm:flex-row">
             <p>© 2026 SwiftCourier. All rights reserved.</p>
             <p>Admin Dashboard · Demo Version</p>

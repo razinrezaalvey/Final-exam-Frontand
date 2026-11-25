@@ -160,7 +160,7 @@ const AgentSettings = () => {
     <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="mx-auto max-w-6xl space-y-7">
 
-        {/* Header */}
+
         <div>
           <div className="flex items-center gap-2 text-sm font-semibold text-emerald-600">
             <Settings size={17} />
@@ -176,7 +176,7 @@ const AgentSettings = () => {
           </p>
         </div>
 
-        {/* Security Banner */}
+
         <div className="flex flex-col gap-4 rounded-2xl bg-gradient-to-r from-slate-950 to-emerald-950 p-6 text-white sm:flex-row sm:items-center">
           <div className="rounded-2xl bg-emerald-500/20 p-4 text-emerald-300">
             <ShieldCheck size={30} />
@@ -194,10 +194,10 @@ const AgentSettings = () => {
 
         <div className="grid gap-6 lg:grid-cols-3">
 
-          {/* Left Column */}
+
           <div className="space-y-6 lg:col-span-2">
 
-            {/* Change Password */}
+
             <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
               <div className="mb-6 flex items-center gap-3 border-b border-slate-100 pb-4">
                 <div className="rounded-xl bg-emerald-50 p-3 text-emerald-600">
@@ -297,7 +297,7 @@ const AgentSettings = () => {
               </form>
             </div>
 
-            {/* Notifications */}
+
             <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
               <div className="mb-3 flex items-center gap-3 border-b border-slate-100 pb-4">
                 <div className="rounded-xl bg-blue-50 p-3 text-blue-600">
@@ -358,10 +358,10 @@ const AgentSettings = () => {
             </div>
           </div>
 
-          {/* Right Column */}
+
           <div className="space-y-6">
 
-            {/* Preferences */}
+
             <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
               <div className="mb-6 flex items-center gap-3 border-b border-slate-100 pb-4">
                 <div className="rounded-xl bg-amber-50 p-3 text-amber-600">
@@ -427,7 +427,7 @@ const AgentSettings = () => {
               </button>
             </div>
 
-            {/* Account */}
+
             <div className="rounded-2xl border border-red-100 bg-white p-6 shadow-sm">
               <div className="mb-4 flex items-center gap-3">
                 <div className="rounded-xl bg-red-50 p-3 text-red-500">
@@ -458,7 +458,7 @@ const AgentSettings = () => {
               </button>
             </div>
 
-            {/* Help Card */}
+
             <div className="rounded-2xl bg-slate-900 p-6 text-white">
               <div className="mb-3 flex items-center gap-2 text-emerald-400">
                 <ShieldCheck size={20} />

@@ -117,7 +117,7 @@ const DeliveryDashboard = () => {
   return (
     <div className="min-h-screen bg-slate-50">
 
-      {/* Sidebar */}
+
       <aside className="hidden lg:flex fixed top-0 left-0 h-screen w-64 bg-slate-950 text-white flex-col z-40">
 
         <div className="px-6 py-7 border-b border-slate-800">
@@ -192,10 +192,10 @@ const DeliveryDashboard = () => {
         </div>
       </aside>
 
-      {/* Main Content */}
+
       <main className="lg:ml-64 min-h-screen">
 
-        {/* Topbar */}
+
         <header className="bg-white border-b border-slate-100 px-5 md:px-8 py-5 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-slate-900">
@@ -223,7 +223,7 @@ const DeliveryDashboard = () => {
 
         <div className="p-5 md:p-8 max-w-7xl mx-auto">
 
-          {/* Welcome Section */}
+
           <div className="bg-gradient-to-r from-slate-950 to-emerald-950 rounded-2xl p-6 md:p-8 text-white mb-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
@@ -262,7 +262,7 @@ const DeliveryDashboard = () => {
             </div>
           </div>
 
-          {/* Statistics */}
+
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
             {stats.map((stat, index) => {
               const Icon = stat.icon;
@@ -291,7 +291,7 @@ const DeliveryDashboard = () => {
             })}
           </div>
 
-          {/* Quick Actions */}
+
           <div className="mb-8">
             <h2 className="text-xl font-bold text-slate-900 mb-4">
               Quick Actions
@@ -340,7 +340,7 @@ const DeliveryDashboard = () => {
             </div>
           </div>
 
-          {/* Recent Delivery Tasks */}
+
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-8">
 
             <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100">
@@ -438,7 +438,7 @@ const DeliveryDashboard = () => {
             </div>
           </div>
 
-          {/* Performance */}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
@@ -517,7 +517,7 @@ const DeliveryDashboard = () => {
             </div>
           </div>
 
-          {/* Footer Notice */}
+
           <p className="text-center text-xs text-slate-400 mt-8">
             SwiftCourier Agent Portal — Sample dashboard data, not connected to backend.
           </p>

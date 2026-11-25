@@ -121,7 +121,7 @@ const CustomerDashboard = () => {
   return (
     <div className="min-h-screen bg-slate-50">
 
-      {/* Mobile Overlay */}
+
       {sidebarOpen && (
         <div
           onClick={closeSidebar}
@@ -129,7 +129,7 @@ const CustomerDashboard = () => {
         />
       )}
 
-      {/* Sidebar */}
+
       <aside
         className={`fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-slate-950 text-white transition-transform duration-300 lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
@@ -205,10 +205,10 @@ const CustomerDashboard = () => {
         </div>
       </aside>
 
-      {/* Main Content */}
+
       <main className="min-h-screen lg:ml-72">
 
-        {/* Topbar */}
+
         <header className="sticky top-0 z-30 flex h-20 items-center justify-between border-b border-slate-200 bg-white/90 px-4 backdrop-blur-md md:px-8">
           <div className="flex items-center gap-3">
             <button
@@ -250,7 +250,7 @@ const CustomerDashboard = () => {
 
         <div className="p-4 md:p-8">
 
-          {/* Welcome Section */}
+
           <section className="mb-8 flex flex-col justify-between gap-5 rounded-3xl bg-gradient-to-r from-emerald-700 to-emerald-500 p-6 text-white shadow-lg shadow-emerald-900/10 md:flex-row md:items-center md:p-8">
             <div>
               <p className="text-sm font-medium text-emerald-100">
@@ -276,7 +276,7 @@ const CustomerDashboard = () => {
             </Link>
           </section>
 
-          {/* Statistics */}
+
           <section className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
             {stats.map((stat) => {
               const Icon = stat.icon;
@@ -312,7 +312,7 @@ const CustomerDashboard = () => {
             })}
           </section>
 
-          {/* Quick Actions */}
+
           <section className="mb-8">
             <div className="mb-5">
               <h2 className="text-xl font-bold text-slate-900">
@@ -366,7 +366,7 @@ const CustomerDashboard = () => {
             </div>
           </section>
 
-          {/* Recent Shipments */}
+
           <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="flex flex-col justify-between gap-4 border-b border-slate-100 p-5 md:flex-row md:items-center md:p-6">
               <div>
@@ -458,7 +458,7 @@ const CustomerDashboard = () => {
             </div>
           </section>
 
-          {/* Bottom Information */}
+
           <div className="mt-8 grid gap-5 md:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-white p-6">
               <div className="flex items-center gap-3">

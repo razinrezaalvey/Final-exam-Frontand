@@ -19,7 +19,7 @@ import toast from "react-hot-toast";
 import { useAuthContext } from "../../context/AuthProvider";
 import api from "../../services/Api";
 
-// Input Component - Outside AgentProfile
+
 const InputField = ({
   label,
   name,
@@ -54,7 +54,7 @@ const InputField = ({
   </div>
 );
 
-// Information Component - Outside AgentProfile
+
 const InfoItem = ({ icon: Icon, label, value }) => (
   <div className="flex items-start gap-3 rounded-xl bg-slate-50 p-4">
     <div className="rounded-lg bg-white p-2 text-emerald-600 shadow-sm">
@@ -99,7 +99,7 @@ const AgentProfile = () => {
     }
   }, [user]);
 
-  // Handle Input Change
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -109,19 +109,19 @@ const AgentProfile = () => {
     }));
   };
 
-  // Edit Profile
+
   const handleEdit = () => {
     setFormData({ ...profile });
     setIsEditing(true);
   };
 
-  // Cancel Editing
+
   const handleCancel = () => {
     setFormData({ ...profile });
     setIsEditing(false);
   };
 
-  // Save Profile
+
   const handleSave = async () => {
     if (!formData.name.trim() || !formData.phone.trim()) {
       toast.error("Please fill in your name and phone number");
@@ -154,7 +154,7 @@ const AgentProfile = () => {
     <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="mx-auto max-w-6xl space-y-7">
 
-        {/* Header */}
+
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <p className="text-sm font-semibold text-emerald-600">
@@ -202,7 +202,7 @@ const AgentProfile = () => {
           )}
         </div>
 
-        {/* Profile Banner */}
+
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-emerald-950 p-6 text-white md:p-9">
           <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-emerald-400/10 blur-3xl" />
 
@@ -248,10 +248,10 @@ const AgentProfile = () => {
           </div>
         </div>
 
-        {/* Profile Details */}
+
         <div className="grid gap-6 lg:grid-cols-3">
 
-          {/* Personal Information */}
+
           <div className="space-y-5 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm lg:col-span-2">
             <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
               <div className="rounded-xl bg-emerald-50 p-2.5 text-emerald-600">
@@ -360,7 +360,7 @@ const AgentProfile = () => {
             )}
           </div>
 
-          {/* Agent Information */}
+
           <div className="space-y-5 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
             <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
               <div className="rounded-xl bg-blue-50 p-2.5 text-blue-600">
@@ -427,7 +427,7 @@ const AgentProfile = () => {
           </div>
         </div>
 
-        {/* Bottom Information */}
+
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
             <div className="rounded-xl bg-emerald-50 p-3 text-emerald-600">

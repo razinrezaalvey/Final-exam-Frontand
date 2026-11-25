@@ -208,7 +208,7 @@ const AdminUsers = () => {
   return (
     <div className="min-h-screen bg-slate-100 p-4 md:p-6 lg:p-8">
       <div className="mx-auto max-w-7xl space-y-7">
-        {/* Header */}
+
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <div>
             <p className="mb-2 text-sm font-semibold text-emerald-600">
@@ -228,7 +228,7 @@ const AdminUsers = () => {
           </div>
         </div>
 
-        {/* Stats */}
+
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {stats.map((stat) => {
             const Icon = stat.icon;
@@ -257,7 +257,7 @@ const AdminUsers = () => {
           })}
         </div>
 
-        {/* Main Table */}
+
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <div className="flex flex-col gap-4 border-b border-slate-100 p-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
@@ -302,7 +302,7 @@ const AdminUsers = () => {
             </div>
           </div>
 
-          {/* Desktop Table */}
+
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[850px] text-left">
               <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
@@ -419,7 +419,7 @@ const AdminUsers = () => {
             </table>
           </div>
 
-          {/* Mobile Cards */}
+
           <div className="space-y-3 p-4 md:hidden">
             {filteredUsers.map((user) => (
               <div
@@ -510,7 +510,7 @@ const AdminUsers = () => {
         </div>
       </div>
 
-      {/* User Details Modal */}
+
       {selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4">
           <div className="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
@@ -587,7 +587,7 @@ const AdminUsers = () => {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
+
       {deleteUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">

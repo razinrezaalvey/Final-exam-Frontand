@@ -42,7 +42,7 @@ const Navbar = () => {
             <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="h-20 flex items-center justify-between">
 
-                    {/* Logo */}
+
                     <Link to="/" className="flex items-center gap-2">
                         <div className="w-11 h-11 rounded-xl bg-emerald-600 flex items-center justify-center">
                             <Package size={25} className="text-white" />
@@ -58,7 +58,7 @@ const Navbar = () => {
                         </div>
                     </Link>
 
-                    {/* Desktop Navigation */}
+
                     <div className="hidden lg:flex items-center gap-8">
                         {navLinks.map((link) => (
                             <NavLink
@@ -71,7 +71,7 @@ const Navbar = () => {
                         ))}
                     </div>
 
-                    {/* Desktop Buttons */}
+
                     <div className="hidden lg:flex items-center gap-4">
                         {isAuthenticated ? (
                             <>
@@ -110,7 +110,7 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
+
                     <button
                         onClick={() => setIsOpen(!isOpen)}
                         className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100"
@@ -121,7 +121,7 @@ const Navbar = () => {
                     </button>
                 </div>
 
-                {/* Mobile Navigation */}
+
                 {isOpen && (
                     <div className="lg:hidden border-t border-gray-100 py-5">
                         <div className="flex flex-col gap-5">

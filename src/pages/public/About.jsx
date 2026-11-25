@@ -55,7 +55,7 @@ const About = () => {
     return (
         <div className="bg-white overflow-hidden">
 
-            {/* Hero Section */}
+
             <section className="relative bg-slate-950 text-white py-24 lg:py-32 px-4">
 
                 <div className="absolute w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl -top-40 -right-20" />
@@ -103,12 +103,12 @@ const About = () => {
                 </div>
             </section>
 
-            {/* Introduction Section */}
+
             <section className="py-20 lg:py-28 px-4">
 
                 <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
 
-                    {/* Visual */}
+
                     <div className="relative">
 
                         <div className="bg-emerald-50 rounded-3xl p-8 sm:p-12 min-h-[350px] flex items-center justify-center relative overflow-hidden">
@@ -158,7 +158,7 @@ const About = () => {
 
                     </div>
 
-                    {/* Content */}
+
                     <div>
 
                         <span className="text-emerald-600 font-bold text-sm uppercase tracking-widest">
@@ -212,7 +212,7 @@ const About = () => {
 
             </section>
 
-            {/* Statistics Section */}
+
             <section className="bg-slate-950 py-16 px-4">
 
                 <div className="max-w-7xl mx-auto">
@@ -267,7 +267,7 @@ const About = () => {
 
             </section>
 
-            {/* Mission & Vision */}
+
             <section className="py-20 lg:py-28 px-4 bg-gray-50">
 
                 <div className="max-w-7xl mx-auto">
@@ -335,7 +335,7 @@ const About = () => {
 
             </section>
 
-            {/* Core Values */}
+
             <section className="py-20 lg:py-28 px-4">
 
                 <div className="max-w-7xl mx-auto">
@@ -395,7 +395,7 @@ const About = () => {
 
             </section>
 
-            {/* CTA Section */}
+
             <section className="px-4 pb-20 lg:pb-28">
 
                 <div className="max-w-7xl mx-auto bg-emerald-600 rounded-3xl p-9 sm:p-14 lg:p-16 text-center relative overflow-hidden">
