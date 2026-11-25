@@ -1,5 +1,6 @@
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import api from "../../services/Api";
 import {
   TrendingUp,
   TrendingDown,
@@ -20,71 +21,7 @@ import {
 import toast from "react-hot-toast";
 
 const monthlyData = [
-  { month: "May", revenue: 42000, parcels: 320 },
-  { month: "Jun", revenue: 58000, parcels: 410 },
-  { month: "Jul", revenue: 49000, parcels: 370 },
-  { month: "Aug", revenue: 72000, parcels: 510 },
-  { month: "Sep", revenue: 65000, parcels: 470 },
-  { month: "Oct", revenue: 89000, parcels: 620 },
-  { month: "Nov", revenue: 98000, parcels: 710 },
-  { month: "Dec", revenue: 84000, parcels: 590 },
-];
-
-const parcelStatuses = [
-  { label: "Delivered", value: 68, count: 8420, color: "bg-emerald-500" },
-  { label: "In Transit", value: 18, count: 2230, color: "bg-blue-500" },
-  { label: "Pending", value: 9, count: 1115, color: "bg-amber-500" },
-  { label: "Cancelled", value: 5, count: 620, color: "bg-red-500" },
-];
-
-const agents = [
-  { name: "Rafiul Islam", deliveries: 210, rating: 4.9, earnings: 42000 },
-  { name: "Sabbir Hossain", deliveries: 145, rating: 4.8, earnings: 28500 },
-  { name: "Arif Rahman", deliveries: 98, rating: 4.6, earnings: 19400 },
-  { name: "Hasan Mahmud", deliveries: 67, rating: 4.7, earnings: 13400 },
-];
-
-const transactions = [
-  {
-    id: "TXN-10025",
-    customer: "Rahim Ahmed",
-    type: "Delivery Charge",
-    date: "2026-11-01",
-    amount: 200,
-    status: "Paid",
-  },
-  {
-    id: "TXN-10026",
-    customer: "Karim Hasan",
-    type: "Cash on Delivery",
-    date: "2026-11-01",
-    amount: 1500,
-    status: "Pending",
-  },
-  {
-    id: "TXN-10027",
-    customer: "Nusrat Jahan",
-    type: "Delivery Charge",
-    date: "2026-11-02",
-    amount: 120,
-    status: "Paid",
-  },
-  {
-    id: "TXN-10028",
-    customer: "Sakib Hossain",
-    type: "Cash on Delivery",
-    date: "2026-11-02",
-    amount: 2500,
-    status: "Paid",
-  },
-  {
-    id: "TXN-10029",
-    customer: "Tania Akter",
-    type: "Delivery Charge",
-    date: "2026-11-03",
-    amount: 180,
-    status: "Pending",
-  },
+  { month: "Jan", revenue: 0, parcels: 0 },
 ];
 
 const formatCurrency = (amount) =>
@@ -93,6 +30,49 @@ const formatCurrency = (amount) =>
 const AdminReports = () => {
   const [period, setPeriod] = useState("7 Months");
   const [transactionFilter, setTransactionFilter] = useState("All");
+  const [liveParcels, setLiveParcels] = useState([]);
+  const [liveAgents, setLiveAgents] = useState([]);
+
+  useEffect(() => {
+    api.get("/api/v1/parcels?page_size=100")
+      .then((res) => setLiveParcels(res.data?.data || []))
+      .catch(() => setLiveParcels([]));
+    api.get("/api/v1/users?role=agent&page_size=100")
+      .then((res) => setLiveAgents(res.data?.data || []))
+      .catch(() => setLiveAgents([]));
+  }, []);
+
+  const totalP = liveParcels.length || 1;
+  const deliveredP = liveParcels.filter((p) => p.delivery_status === "delivered").length;
+  const transitP = liveParcels.filter((p) => ["picked_up", "in_transit", "out_for_delivery"].includes(p.delivery_status)).length;
+  const pendingP = liveParcels.filter((p) => ["pending", "confirmed", "assigned"].includes(p.delivery_status)).length;
+  const cancelledP = liveParcels.filter((p) => p.delivery_status === "cancelled").length;
+  const totalRev = liveParcels.reduce((sum, p) => sum + Number(p.delivery_charge || 0), 0);
+
+  const parcelStatuses = [
+    { label: "Delivered", value: Math.round((deliveredP / totalP) * 100), count: deliveredP, color: "bg-emerald-500" },
+    { label: "In Transit", value: Math.round((transitP / totalP) * 100), count: transitP, color: "bg-blue-500" },
+    { label: "Pending", value: Math.round((pendingP / totalP) * 100), count: pendingP, color: "bg-amber-500" },
+    { label: "Cancelled", value: Math.round((cancelledP / totalP) * 100), count: cancelledP, color: "bg-red-500" },
+  ];
+
+  const agents = liveAgents.map((a) => ({
+    name: a.full_name,
+    deliveries: liveParcels.filter((p) => p.agent_id === a.id && p.delivery_status === "delivered").length,
+    rating: 5.0,
+    earnings: liveParcels
+      .filter((p) => p.agent_id === a.id && p.delivery_status === "delivered")
+      .reduce((sum, p) => sum + Number(p.delivery_charge || 0), 0),
+  }));
+
+  const transactions = liveParcels.map((p) => ({
+    id: p.tracking_number,
+    customer: p.sender_name,
+    type: p.cod_amount > 0 ? "Cash on Delivery" : "Delivery Charge",
+    date: p.created_at ? new Date(p.created_at).toLocaleDateString() : "",
+    amount: Number(p.delivery_charge || 0),
+    status: p.payment_status === "paid" ? "Paid" : "Pending",
+  }));
 
   const visibleMonths = useMemo(() => {
     if (period === "3 Months") return monthlyData.slice(-3);

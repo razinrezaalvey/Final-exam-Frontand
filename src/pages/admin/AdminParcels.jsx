@@ -129,13 +129,6 @@ const initialParcels = [
   },
 ];
 
-const deliveryAgents = [
-  "Rahim Ahmed",
-  "Karim Hasan",
-  "Sakib Hossain",
-  "Nayeem Islam",
-];
-
 const statusOptions = [
   "Pending",
   "Picked Up",
@@ -185,8 +178,20 @@ const StatCard = ({ title, value, icon: Icon, color, onClick, active }) => (
 
 const AdminParcels = () => {
   const [parcels, setParcels] = useState([]);
+  const [deliveryAgents, setDeliveryAgents] = useState([]);
 
   useEffect(() => {
+    api
+      .get("/api/v1/users?role=agent&page_size=100")
+      .then((res) => {
+        const list = (res.data?.data || []).map((a) => ({
+          id: a.id,
+          name: a.full_name,
+        }));
+        setDeliveryAgents(list);
+      })
+      .catch(() => setDeliveryAgents([]));
+
     api
       .get("/api/v1/parcels?page_size=100")
       .then((res) => {
@@ -209,6 +214,7 @@ const AdminParcels = () => {
             .split("_")
             .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
             .join(" "),
+          agentId: p.agent_id || "",
           agent: p.agent_id ? `Agent #${p.agent_id}` : "Not Assigned",
         }));
         setParcels(mapped);
@@ -250,25 +256,47 @@ const AdminParcels = () => {
     cancelled: parcels.filter((p) => p.status === "Cancelled").length,
   };
 
-  const handleStatusChange = (id, status) => {
-    setParcels((prev) =>
-      prev.map((parcel) =>
-        parcel.id === id ? { ...parcel, status } : parcel
-      )
-    );
-
-    setEditingParcel(null);
-    toast.success("Parcel status updated!");
+  const handleStatusChange = async (id, status) => {
+    const target = parcels.find((p) => p.id === id);
+    const apiStatus = status.toLowerCase().replace(/ /g, "_");
+    try {
+      if (target?.rawId) {
+        await api.patch(`/api/v1/parcels/${target.rawId}/status`, { new_status: apiStatus });
+      }
+      setParcels((prev) =>
+        prev.map((parcel) =>
+          parcel.id === id ? { ...parcel, status } : parcel
+        )
+      );
+      setEditingParcel(null);
+      toast.success("Parcel status updated!");
+    } catch (error) {
+      toast.error(error?.response?.data?.detail || "Could not update parcel status");
+    }
   };
 
-  const handleAgentChange = (id, agent) => {
-    setParcels((prev) =>
-      prev.map((parcel) =>
-        parcel.id === id ? { ...parcel, agent } : parcel
-      )
-    );
-
-    toast.success("Delivery agent assigned!");
+  const handleAgentChange = async (id, agentId) => {
+    if (!agentId) return;
+    const target = parcels.find((p) => p.id === id);
+    const agentObj = deliveryAgents.find((a) => String(a.id) === String(agentId));
+    try {
+      if (target?.rawId) {
+        await api.post("/api/v1/agents/assignments", {
+          parcel_id: target.rawId,
+          agent_id: Number(agentId),
+        });
+      }
+      setParcels((prev) =>
+        prev.map((parcel) =>
+          parcel.id === id
+            ? { ...parcel, agentId: Number(agentId), agent: agentObj?.name || `Agent #${agentId}` }
+            : parcel
+        )
+      );
+      toast.success("Delivery agent assigned!");
+    } catch (error) {
+      toast.error(error?.response?.data?.detail || "Could not assign delivery agent");
+    }
   };
 
   const handleDelete = () => {
@@ -495,16 +523,16 @@ const AdminParcels = () => {
 
                     <td className="px-5 py-4">
                       <select
-                        value={parcel.agent}
+                        value={parcel.agentId || ""}
                         onChange={(e) =>
                           handleAgentChange(parcel.id, e.target.value)
                         }
                         className="w-36 rounded-lg border border-slate-200 bg-white px-2 py-2 text-xs outline-none focus:border-emerald-500"
                       >
-                        <option value="Not Assigned">Not Assigned</option>
+                        <option value="">Not Assigned</option>
                         {deliveryAgents.map((agent) => (
-                          <option key={agent} value={agent}>
-                            {agent}
+                          <option key={agent.id} value={agent.id}>
+                            {agent.name}
                           </option>
                         ))}
                       </select>
@@ -638,16 +666,16 @@ const AdminParcels = () => {
                     Assign Agent
                   </label>
                   <select
-                    value={parcel.agent}
+                    value={parcel.agentId || ""}
                     onChange={(e) =>
                       handleAgentChange(parcel.id, e.target.value)
                     }
                     className="w-full rounded-lg border border-slate-200 bg-white px-2 py-2 text-xs outline-none focus:border-emerald-500"
                   >
-                    <option value="Not Assigned">Not Assigned</option>
+                    <option value="">Not Assigned</option>
                     {deliveryAgents.map((agent) => (
-                      <option key={agent} value={agent}>
-                        {agent}
+                      <option key={agent.id} value={agent.id}>
+                        {agent.name}
                       </option>
                     ))}
                   </select>

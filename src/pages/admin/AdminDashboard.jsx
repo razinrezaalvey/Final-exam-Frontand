@@ -29,126 +29,14 @@ import {
 import { useAuthContext } from "../../context/AuthProvider";
 import api from "../../services/Api";
 
-const stats = [
-  {
-    title: "Total Parcels",
-    value: "12,840",
-    change: "+12.5%",
-    positive: true,
-    icon: Package,
-    color: "bg-blue-50 text-blue-600",
-  },
-  {
-    title: "Total Customers",
-    value: "8,250",
-    change: "+8.2%",
-    positive: true,
-    icon: Users,
-    color: "bg-purple-50 text-purple-600",
-  },
-  {
-    title: "Delivery Agents",
-    value: "145",
-    change: "+4.6%",
-    positive: true,
-    icon: Truck,
-    color: "bg-emerald-50 text-emerald-600",
-  },
-  {
-    title: "Total Revenue",
-    value: "৳8,45,250",
-    change: "+15.8%",
-    positive: true,
-    icon: Wallet,
-    color: "bg-amber-50 text-amber-600",
-  },
-];
-
-const recentParcels = [
-  {
-    id: "SWC-2026-10025",
-    customer: "Rahim Ahmed",
-    destination: "Dhaka → Chattogram",
-    date: "Nov 03, 2026",
-    amount: "৳250",
-    status: "In Transit",
-  },
-  {
-    id: "SWC-2026-10024",
-    customer: "Karim Hasan",
-    destination: "Dhaka → Sylhet",
-    date: "Nov 03, 2026",
-    amount: "৳180",
-    status: "Delivered",
-  },
-  {
-    id: "SWC-2026-10023",
-    customer: "Nusrat Jahan",
-    destination: "Khulna → Dhaka",
-    date: "Nov 02, 2026",
-    amount: "৳320",
-    status: "Pending",
-  },
-  {
-    id: "SWC-2026-10022",
-    customer: "Sakib Hossain",
-    destination: "Dhaka → Rajshahi",
-    date: "Nov 02, 2026",
-    amount: "৳200",
-    status: "Picked Up",
-  },
-  {
-    id: "SWC-2026-10021",
-    customer: "Mim Akter",
-    destination: "Chattogram → Dhaka",
-    date: "Nov 01, 2026",
-    amount: "৳280",
-    status: "Delivered",
-  },
-];
-
-const agents = [
-  {
-    name: "Rahim Ahmed",
-    id: "AGT-001",
-    deliveries: 128,
-    rating: "4.9",
-    initials: "RA",
-    color: "bg-emerald-100 text-emerald-700",
-  },
-  {
-    name: "Karim Hasan",
-    id: "AGT-002",
-    deliveries: 115,
-    rating: "4.8",
-    initials: "KH",
-    color: "bg-blue-100 text-blue-700",
-  },
-  {
-    name: "Sakib Hossain",
-    id: "AGT-003",
-    deliveries: 98,
-    rating: "4.7",
-    initials: "SH",
-    color: "bg-purple-100 text-purple-700",
-  },
-];
-
 const weeklyData = [
-  { day: "Mon", value: 45 },
-  { day: "Tue", value: 68 },
-  { day: "Wed", value: 52 },
-  { day: "Thu", value: 85 },
-  { day: "Fri", value: 62 },
-  { day: "Sat", value: 95 },
-  { day: "Sun", value: 72 },
-];
-
-const statusData = [
-  { label: "Delivered", value: 68, count: "8,731", color: "bg-emerald-500" },
-  { label: "In Transit", value: 20, count: "2,568", color: "bg-blue-500" },
-  { label: "Pending", value: 8, count: "1,027", color: "bg-amber-500" },
-  { label: "Cancelled", value: 4, count: "514", color: "bg-red-500" },
+  { day: "Mon", value: 0 },
+  { day: "Tue", value: 0 },
+  { day: "Wed", value: 0 },
+  { day: "Thu", value: 0 },
+  { day: "Fri", value: 0 },
+  { day: "Sat", value: 0 },
+  { day: "Sun", value: 0 },
 ];
 
 const StatusBadge = ({ status }) => {
@@ -187,6 +75,82 @@ const AdminDashboard = () => {
 
   const adminName = user?.full_name || "Admin";
   const adminInitials = adminName.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
+
+  const totalCustomers = liveUsers.filter((u) => u.role === "customer").length;
+  const totalAgentsCount = liveUsers.filter((u) => u.role === "agent").length;
+  const totalRevenue = liveParcels.reduce((sum, p) => sum + Number(p.delivery_charge || 0), 0);
+
+  const stats = [
+    {
+      title: "Total Parcels",
+      value: String(liveParcels.length),
+      change: "Live DB",
+      positive: true,
+      icon: Package,
+      color: "bg-blue-50 text-blue-600",
+    },
+    {
+      title: "Total Customers",
+      value: String(totalCustomers),
+      change: "Live DB",
+      positive: true,
+      icon: Users,
+      color: "bg-purple-50 text-purple-600",
+    },
+    {
+      title: "Delivery Agents",
+      value: String(totalAgentsCount),
+      change: "Live DB",
+      positive: true,
+      icon: Truck,
+      color: "bg-emerald-50 text-emerald-600",
+    },
+    {
+      title: "Total Revenue",
+      value: `৳${totalRevenue.toLocaleString("en-IN")}`,
+      change: "Live DB",
+      positive: true,
+      icon: Wallet,
+      color: "bg-amber-50 text-amber-600",
+    },
+  ];
+
+  const formatStatus = (s) =>
+    (s || "pending").split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+
+  const recentParcels = liveParcels.slice(0, 5).map((p) => ({
+    id: p.tracking_number,
+    customer: p.sender_name,
+    destination: `${p.pickup_address} → ${p.delivery_address}`,
+    date: p.created_at ? new Date(p.created_at).toLocaleDateString() : "",
+    amount: `৳${p.delivery_charge}`,
+    status: formatStatus(p.delivery_status),
+  }));
+
+  const agents = liveUsers
+    .filter((u) => u.role === "agent")
+    .slice(0, 5)
+    .map((a) => ({
+      name: a.full_name,
+      id: `AGT-${a.id}`,
+      deliveries: liveParcels.filter((p) => p.agent_id === a.id && p.delivery_status === "delivered").length,
+      rating: "5.0",
+      initials: a.full_name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase(),
+      color: "bg-emerald-100 text-emerald-700",
+    }));
+
+  const totalP = liveParcels.length || 1;
+  const deliveredP = liveParcels.filter((p) => p.delivery_status === "delivered").length;
+  const transitP = liveParcels.filter((p) => ["picked_up", "in_transit", "out_for_delivery"].includes(p.delivery_status)).length;
+  const pendingP = liveParcels.filter((p) => ["pending", "confirmed", "assigned"].includes(p.delivery_status)).length;
+  const cancelledP = liveParcels.filter((p) => p.delivery_status === "cancelled").length;
+
+  const statusData = [
+    { label: "Delivered", value: Math.round((deliveredP / totalP) * 100), count: String(deliveredP), color: "bg-emerald-500" },
+    { label: "In Transit", value: Math.round((transitP / totalP) * 100), count: String(transitP), color: "bg-blue-500" },
+    { label: "Pending", value: Math.round((pendingP / totalP) * 100), count: String(pendingP), color: "bg-amber-500" },
+    { label: "Cancelled", value: Math.round((cancelledP / totalP) * 100), count: String(cancelledP), color: "bg-red-500" },
+  ];
 
   return (
     <div className="min-h-screen bg-slate-50 lg:flex">
