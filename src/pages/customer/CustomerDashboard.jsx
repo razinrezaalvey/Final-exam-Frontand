@@ -22,8 +22,10 @@ import {
   TrendingUp,
   MoreHorizontal,
 } from 'lucide-react';
+import { useAuthContext } from '../../context/AuthProvider';
 
 const CustomerDashboard = () => {
+  const { user, logout } = useAuthContext();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const stats = [
@@ -189,13 +191,13 @@ const CustomerDashboard = () => {
             </Link>
           </div>
 
-          <Link
-            to="/login"
-            className="mt-5 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-400 transition hover:bg-white/10 hover:text-white"
+          <button
+            onClick={() => { logout(); window.location.href = '/login'; }}
+            className="mt-5 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-400 transition hover:bg-white/10 hover:text-white"
           >
             <LogOut size={19} />
             Logout
-          </Link>
+          </button>
         </div>
       </aside>
 
@@ -230,11 +232,11 @@ const CustomerDashboard = () => {
 
             <div className="flex items-center gap-3 border-l border-slate-200 pl-3 md:pl-5">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 font-bold text-emerald-700">
-                HA
+                {user?.full_name?.charAt(0).toUpperCase() || 'U'}
               </div>
               <div className="hidden sm:block">
                 <p className="text-sm font-bold text-slate-900">
-                  Hasan Ahmed
+                  {user?.full_name || 'User'}
                 </p>
                 <p className="text-xs text-slate-500">Customer</p>
               </div>
@@ -252,7 +254,7 @@ const CustomerDashboard = () => {
               </p>
 
               <h2 className="mt-3 text-2xl font-extrabold md:text-3xl">
-                Hello, Hasan! 👋
+                Hello, {user?.full_name?.split(' ')[0] || 'User'}! 👋
               </h2>
 
               <p className="mt-2 max-w-lg text-sm leading-6 text-emerald-50">
