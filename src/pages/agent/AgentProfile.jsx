@@ -16,20 +16,7 @@ import {
   Star,
 } from "lucide-react";
 import toast from "react-hot-toast";
-
-// Demo Profile Data
-const initialProfile = {
-  name: "Rahim Ahmed",
-  email: "rahim@gmail.com",
-  phone: "01712345678",
-  address: "Dhanmondi, Dhaka",
-  city: "Dhaka",
-  postalCode: "1205",
-  agentId: "AGT-2026-001",
-  vehicleType: "Motorcycle",
-  vehicleNumber: "DHAKA-METRO-HA-123456",
-  joiningDate: "January 15, 2026",
-};
+import { useAuthContext } from "../../context/AuthProvider";
 
 // Input Component - Outside AgentProfile
 const InputField = ({
@@ -84,6 +71,21 @@ const InfoItem = ({ icon: Icon, label, value }) => (
 );
 
 const AgentProfile = () => {
+  const { user } = useAuthContext();
+
+  const initialProfile = {
+    name: user?.full_name || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+    address: "",
+    city: "",
+    postalCode: "",
+    agentId: `AGT-${user?.id || ""}`,
+    vehicleType: "",
+    vehicleNumber: "",
+    joiningDate: "",
+  };
+
   const [profile, setProfile] = useState(initialProfile);
   const [formData, setFormData] = useState(initialProfile);
   const [isEditing, setIsEditing] = useState(false);
