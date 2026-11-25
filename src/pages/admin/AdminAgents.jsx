@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import api from "../../services/Api";
 import {
   Search,
   Users,
@@ -121,7 +122,31 @@ const statusStyle = (status) =>
     : "bg-slate-100 text-slate-600";
 
 const AdminAgents = () => {
-  const [agents, setAgents] = useState(initialAgents);
+  const [agents, setAgents] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/api/v1/users?role=agent&page_size=100")
+      .then((res) => {
+        const mapped = (res.data?.data || []).map((a) => ({
+          id: a.id,
+          name: a.full_name,
+          email: a.email,
+          phone: a.phone || "N/A",
+          address: a.address || "N/A",
+          joined: a.created_at ? new Date(a.created_at).toLocaleDateString() : "",
+          vehicle: "Standard",
+          vehicleNumber: "N/A",
+          assignedParcels: 0,
+          delivered: 0,
+          earnings: 0,
+          status: a.is_active ? "Active" : "Inactive",
+          rating: 5.0,
+        }));
+        setAgents(mapped);
+      })
+      .catch(() => setAgents([]));
+  }, []);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedAgent, setSelectedAgent] = useState(null);

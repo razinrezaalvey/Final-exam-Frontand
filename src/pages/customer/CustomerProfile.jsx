@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
     UserRound,
@@ -17,22 +17,39 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../../context/AuthProvider";
+import api from "../../services/Api";
 
 const CustomerProfile = () => {
-    const { user } = useAuthContext();
+    const { user, updateUser } = useAuthContext();
     const [isEditing, setIsEditing] = useState(false);
 
     const [profile, setProfile] = useState({
         name: user?.full_name || "",
         email: user?.email || "",
         phone: user?.phone || "",
-        address: "",
+        address: user?.address || "",
         city: "",
         postalCode: "",
-        joinedDate: "",
+        joinedDate: user?.created_at ? new Date(user.created_at).toLocaleDateString() : "",
     });
 
     const [formData, setFormData] = useState(profile);
+
+    useEffect(() => {
+        if (user) {
+            const nextProfile = {
+                name: user.full_name || "",
+                email: user.email || "",
+                phone: user.phone || "",
+                address: user.address || "",
+                city: "",
+                postalCode: "",
+                joinedDate: user.created_at ? new Date(user.created_at).toLocaleDateString() : "",
+            };
+            setProfile(nextProfile);
+            setFormData(nextProfile);
+        }
+    }, [user]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -53,16 +70,11 @@ const CustomerProfile = () => {
         setIsEditing(false);
     };
 
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
 
         if (!formData.name.trim()) {
             toast.error("Name is required");
-            return;
-        }
-
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            toast.error("Please enter a valid email address");
             return;
         }
 
@@ -71,17 +83,21 @@ const CustomerProfile = () => {
             return;
         }
 
-        if (!formData.address.trim()) {
-            toast.error("Address is required");
-            return;
+        try {
+            const res = await api.put("/api/v1/users/me", {
+                full_name: formData.name.trim(),
+                phone: formData.phone.trim(),
+                address: formData.address.trim() || null,
+            });
+            if (res.data) {
+                updateUser(res.data);
+            }
+            setProfile(formData);
+            setIsEditing(false);
+            toast.success("Profile updated successfully!");
+        } catch (error) {
+            toast.error(error?.response?.data?.detail || "Failed to update profile");
         }
-
-        setProfile(formData);
-        setIsEditing(false);
-
-        toast.success("Profile updated successfully!");
-
-        console.log("Updated Profile:", formData);
     };
 
     const profileFields = [

@@ -1,5 +1,5 @@
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Search,
   Package,
@@ -12,64 +12,48 @@ import {
   Eye,
   Filter,
 } from "lucide-react";
+import toast from "react-hot-toast";
+import api from "../../services/Api";
 
-const initialTasks = [
-  {
-    id: 1,
-    trackingId: "SWC-2026-10025",
-    receiver: "Karim Hasan",
-    phone: "01812345678",
-    address: "Agrabad, Chattogram",
-    parcelType: "Electronics",
-    deliveryDate: "Nov 04, 2026",
-    amount: 1500,
-    status: "Pending",
-  },
-  {
-    id: 2,
-    trackingId: "SWC-2026-10026",
-    receiver: "Nusrat Jahan",
-    phone: "01712345678",
-    address: "Dhanmondi, Dhaka",
-    parcelType: "Clothing",
-    deliveryDate: "Nov 04, 2026",
-    amount: 0,
-    status: "In Transit",
-  },
-  {
-    id: 3,
-    trackingId: "SWC-2026-10027",
-    receiver: "Sakib Ahmed",
-    phone: "01912345678",
-    address: "Uttara, Dhaka",
-    parcelType: "Document",
-    deliveryDate: "Nov 05, 2026",
-    amount: 800,
-    status: "Delivered",
-  },
-  {
-    id: 4,
-    trackingId: "SWC-2026-10028",
-    receiver: "Mim Akter",
-    phone: "01612345678",
-    address: "Mirpur, Dhaka",
-    parcelType: "Fragile Item",
-    deliveryDate: "Nov 05, 2026",
-    amount: 500,
-    status: "Pending",
-  },
-];
+const formatStatus = (status) =>
+  (status || "pending")
+    .split("_")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
 
 const statusStyles = {
   Pending: "bg-amber-50 text-amber-700",
+  Assigned: "bg-amber-50 text-amber-700",
+  "Picked Up": "bg-purple-50 text-purple-700",
   "In Transit": "bg-blue-50 text-blue-700",
+  "Out For Delivery": "bg-indigo-50 text-indigo-700",
   Delivered: "bg-emerald-50 text-emerald-700",
 };
 
 const AgentTasks = () => {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
+
+  useEffect(() => {
+    api
+      .get("/api/v1/parcels?page_size=100")
+      .then((res) => {
+        const mapped = (res.data?.data || []).map((p) => ({
+          id: p.id,
+          trackingId: p.tracking_number,
+          receiver: p.receiver_name,
+          phone: p.receiver_phone,
+          address: p.delivery_address,
+          parcelType: formatStatus(p.parcel_type),
+          deliveryDate: p.created_at ? new Date(p.created_at).toLocaleDateString() : "",
+          amount: p.cod_amount || 0,
+          status: formatStatus(p.delivery_status),
+        }));
+        setTasks(mapped);
+      })
+      .catch(() => setTasks([]));
+  }, []);
 
   const filters = ["All", "Pending", "In Transit", "Delivered"];
 
@@ -87,12 +71,19 @@ const AgentTasks = () => {
     });
   }, [tasks, search, activeFilter]);
 
-  const updateStatus = (id, newStatus) => {
-    setTasks((previousTasks) =>
-      previousTasks.map((task) =>
-        task.id === id ? { ...task, status: newStatus } : task
-      )
-    );
+  const updateStatus = async (id, newStatus) => {
+    const apiStatus = newStatus.toLowerCase().replace(/ /g, "_");
+    try {
+      await api.patch(`/api/v1/parcels/${id}/status`, { new_status: apiStatus });
+      setTasks((previousTasks) =>
+        previousTasks.map((task) =>
+          task.id === id ? { ...task, status: newStatus } : task
+        )
+      );
+      toast.success(`Status updated to ${newStatus}`);
+    } catch (error) {
+      toast.error(error?.response?.data?.detail || "Could not update status");
+    }
   };
 
   const stats = [

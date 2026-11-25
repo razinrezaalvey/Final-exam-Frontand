@@ -1,5 +1,6 @@
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import api from "../../services/Api";
 import {
   Package,
   Search,
@@ -183,7 +184,37 @@ const StatCard = ({ title, value, icon: Icon, color, onClick, active }) => (
 );
 
 const AdminParcels = () => {
-  const [parcels, setParcels] = useState(initialParcels);
+  const [parcels, setParcels] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/api/v1/parcels?page_size=100")
+      .then((res) => {
+        const mapped = (res.data?.data || []).map((p) => ({
+          id: p.tracking_number,
+          rawId: p.id,
+          sender: p.sender_name,
+          senderPhone: p.sender_phone,
+          receiver: p.receiver_name,
+          receiverPhone: p.receiver_phone,
+          origin: p.pickup_address,
+          destination: p.delivery_address,
+          type: (p.parcel_type || "small_package").replace(/_/g, " "),
+          weight: `${p.parcel_weight} kg`,
+          bookingDate: p.created_at ? new Date(p.created_at).toLocaleDateString() : "",
+          deliveryCharge: p.delivery_charge,
+          codAmount: p.cod_amount || 0,
+          paymentStatus: p.payment_status === "paid" ? "Paid" : "COD Pending",
+          status: (p.delivery_status || "pending")
+            .split("_")
+            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+            .join(" "),
+          agent: p.agent_id ? `Agent #${p.agent_id}` : "Not Assigned",
+        }));
+        setParcels(mapped);
+      })
+      .catch(() => setParcels([]));
+  }, []);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedParcel, setSelectedParcel] = useState(null);

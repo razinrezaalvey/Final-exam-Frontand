@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import api from "../../services/Api";
 import {
   Search,
   Users,
@@ -106,7 +107,27 @@ const statusStyle = (status) =>
     : "bg-red-50 text-red-600";
 
 const AdminUsers = () => {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/api/v1/users?page_size=100")
+      .then((res) => {
+        const mapped = (res.data?.data || []).map((u) => ({
+          id: u.id,
+          name: u.full_name,
+          email: u.email,
+          phone: u.phone || "N/A",
+          address: u.address || "N/A",
+          joined: u.created_at ? new Date(u.created_at).toLocaleDateString() : "",
+          totalParcels: 0,
+          status: u.is_active ? "Active" : "Blocked",
+          role: (u.role || "customer").charAt(0).toUpperCase() + (u.role || "customer").slice(1),
+        }));
+        setUsers(mapped);
+      })
+      .catch(() => setUsers([]));
+  }, []);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedUser, setSelectedUser] = useState(null);

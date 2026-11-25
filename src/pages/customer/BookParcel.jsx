@@ -1,6 +1,8 @@
 
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import api from '../../services/Api';
 import {
   Package,
   User,
@@ -100,20 +102,47 @@ const BookParcel = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const [createdParcel, setCreatedParcel] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const parcelTypeMap = {
+    Document: 'document',
+    Electronics: 'small_package',
+    Clothing: 'small_package',
+    'Fragile Item': 'fragile',
+    Other: 'medium_package',
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    // Demo only. No booking is sent to a backend.
-    console.log('Demo Parcel Booking:', {
-      ...formData,
-      weight: Number(formData.weight),
-      codAmount: formData.cod ? Number(formData.codAmount) : 0,
-      deliveryCharge,
-    });
+    setSubmitting(true);
+    try {
+      const payload = {
+        sender_name: formData.senderName.trim(),
+        sender_phone: formData.senderPhone.trim(),
+        sender_address: formData.senderAddress.trim(),
+        receiver_name: formData.receiverName.trim(),
+        receiver_phone: formData.receiverPhone.trim(),
+        receiver_address: formData.receiverAddress.trim(),
+        pickup_address: formData.senderAddress.trim(),
+        delivery_address: formData.receiverAddress.trim(),
+        parcel_type: parcelTypeMap[formData.parcelType] || 'small_package',
+        parcel_weight: Number(formData.weight),
+        cod_amount: formData.cod ? Number(formData.codAmount) : 0,
+      };
 
-    setSuccess(true);
+      const res = await api.post('/api/v1/parcels', payload);
+      setCreatedParcel(res.data);
+      setSuccess(true);
+      toast.success('Parcel booked successfully!');
+    } catch (error) {
+      toast.error(error?.response?.data?.detail || 'Failed to book parcel. Please log in as a customer.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const resetForm = () => {
@@ -173,12 +202,14 @@ const BookParcel = () => {
           </div>
 
           <h1 className="mt-6 text-3xl font-extrabold text-slate-900">
-            Booking Form Completed!
+            Parcel Booked Successfully!
           </h1>
 
           <p className="mt-4 leading-7 text-slate-500">
-            Your parcel booking information passed frontend validation.
-            No actual parcel has been booked because the backend is not connected yet.
+            Your parcel has been booked. Tracking ID:{' '}
+            <span className="font-bold text-emerald-600">
+              {createdParcel?.tracking_number || 'Pending'}
+            </span>
           </p>
 
           <div className="mt-6 rounded-2xl bg-slate-50 p-5 text-left">
@@ -193,9 +224,9 @@ const BookParcel = () => {
             </div>
 
             <div className="mt-4 flex justify-between gap-3 border-t border-slate-200 pt-4">
-              <span className="font-semibold text-slate-700">Estimated Charge</span>
+              <span className="font-semibold text-slate-700">Delivery Charge</span>
               <span className="text-lg font-extrabold text-emerald-600">
-                ৳ {deliveryCharge}
+                ৳ {createdParcel?.delivery_charge ?? deliveryCharge}
               </span>
             </div>
           </div>

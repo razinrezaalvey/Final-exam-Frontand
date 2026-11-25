@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import api from '../../services/Api';
 import {
   Search,
   Package,
@@ -78,7 +79,7 @@ const TrackParcel = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleTrack = (e) => {
+  const handleTrack = async (e) => {
     e.preventDefault();
 
     if (!trackingId.trim()) {
@@ -91,16 +92,37 @@ const TrackParcel = () => {
     setError('');
     setParcel(null);
 
-    // Demo tracking only. Replace with API request later.
-    setTimeout(() => {
-      if (trackingId.trim().toUpperCase() === demoParcel.trackingId) {
-        setParcel(demoParcel);
-      } else {
-        setError('No parcel found. Please check your tracking ID.');
-      }
-
+    try {
+      const res = await api.get(`/api/v1/tracking/${encodeURIComponent(trackingId.trim().toUpperCase())}`);
+      const data = res.data;
+      const statusLabel = (data.delivery_status || 'pending')
+        .split('_')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ');
+      setParcel({
+        trackingId: data.tracking_number,
+        status: statusLabel,
+        sender: data.sender_name,
+        receiver: data.receiver_name,
+        origin: data.pickup_address,
+        destination: data.delivery_address,
+        estimatedDelivery: 'In Progress',
+        lastLocation: data.delivery_address,
+        events: (data.history || []).map((h) => ({
+          title: (h.status || '').split('_').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+          location: data.delivery_address,
+          date: h.created_at ? new Date(h.created_at).toLocaleDateString() : '',
+          time: h.created_at ? new Date(h.created_at).toLocaleTimeString() : '',
+          description: h.note || 'Status updated',
+          completed: true,
+          icon: Truck,
+        })),
+      });
+    } catch {
+      setError('No parcel found. Please check your tracking ID.');
+    } finally {
       setLoading(false);
-    }, 700);
+    }
   };
 
   return (

@@ -1,5 +1,5 @@
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Wallet,
   TrendingUp,
@@ -13,58 +13,30 @@ import {
   Package,
   Banknote,
 } from "lucide-react";
-
-const earningsData = [
-  {
-    id: 1,
-    trackingId: "SWC-2026-10025",
-    customer: "Karim Hasan",
-    date: "2026-11-03",
-    deliveryType: "Express",
-    amount: 120,
-    status: "Paid",
-  },
-  {
-    id: 2,
-    trackingId: "SWC-2026-10026",
-    customer: "Nusrat Jahan",
-    date: "2026-11-03",
-    deliveryType: "Regular",
-    amount: 80,
-    status: "Pending",
-  },
-  {
-    id: 3,
-    trackingId: "SWC-2026-10027",
-    customer: "Sakib Ahmed",
-    date: "2026-11-02",
-    deliveryType: "Express",
-    amount: 120,
-    status: "Paid",
-  },
-  {
-    id: 4,
-    trackingId: "SWC-2026-10028",
-    customer: "Mim Akter",
-    date: "2026-11-02",
-    deliveryType: "Regular",
-    amount: 80,
-    status: "Paid",
-  },
-  {
-    id: 5,
-    trackingId: "SWC-2026-10029",
-    customer: "Tanvir Ahmed",
-    date: "2026-11-01",
-    deliveryType: "Express",
-    amount: 120,
-    status: "Pending",
-  },
-];
+import api from "../../services/Api";
 
 const AgentEarnings = () => {
+  const [earningsData, setEarningsData] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
+
+  useEffect(() => {
+    api
+      .get("/api/v1/parcels?page_size=100")
+      .then((res) => {
+        const mapped = (res.data?.data || []).map((p) => ({
+          id: p.id,
+          trackingId: p.tracking_number,
+          customer: p.receiver_name,
+          date: p.created_at ? new Date(p.created_at).toLocaleDateString() : "",
+          deliveryType: p.parcel_type || "Standard",
+          amount: Number(p.delivery_charge || 0),
+          status: p.delivery_status === "delivered" ? "Paid" : "Pending",
+        }));
+        setEarningsData(mapped);
+      })
+      .catch(() => setEarningsData([]));
+  }, []);
 
   const totalEarnings = earningsData.reduce(
     (total, item) => total + item.amount,

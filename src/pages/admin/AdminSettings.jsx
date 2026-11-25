@@ -1,5 +1,6 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAuthContext } from "../../context/AuthProvider";
 import {
   User,
   Building2,
@@ -146,13 +147,26 @@ const AdminSettings = () => {
     delivery: false,
   });
 
+  const { user } = useAuthContext();
+
   // Admin Profile
   const [profile, setProfile] = useState({
-    name: "Admin User",
-    email: "admin@swiftcourier.com",
-    phone: "01712345678",
-    address: "Dhanmondi, Dhaka, Bangladesh",
+    name: user?.full_name || "Admin",
+    email: user?.email || "",
+    phone: user?.phone || "",
+    address: user?.address || "",
   });
+
+  useEffect(() => {
+    if (user) {
+      setProfile({
+        name: user.full_name || "Admin",
+        email: user.email || "",
+        phone: user.phone || "",
+        address: user.address || "",
+      });
+    }
+  }, [user]);
 
   // Company Information
   const [company, setCompany] = useState({

@@ -1,10 +1,18 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthProvider';
 
-const ProtectedRoute = () => {
-  // TODO: Check authentication and user role with AuthProvider.
-  const isAuthenticated = false;
+const ProtectedRoute = ({ allowedRoles }) => {
+  const { isAuthenticated, user } = useAuthContext();
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user?.role)) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -1,5 +1,5 @@
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Package,
@@ -15,30 +15,58 @@ import {
   X,
 } from "lucide-react";
 
-import { demoParcels } from "../../data/demoParcels";
+import api from "../../services/Api";
+
+const formatStatus = (status) =>
+  (status || "pending")
+    .split("_")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
 
 const MyParcels = () => {
+  const [parcels, setParcels] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
 
-  // Calculate statistics
-  const totalParcels = demoParcels.length;
+  useEffect(() => {
+    api
+      .get("/api/v1/parcels?page_size=100")
+      .then((res) => {
+        const mapped = (res.data?.data || []).map((p) => ({
+          id: p.id,
+          trackingId: p.tracking_number,
+          receiver: p.receiver_name,
+          receiverPhone: p.receiver_phone,
+          receiverAddress: p.delivery_address,
+          bookingDate: p.created_at ? new Date(p.created_at).toLocaleDateString() : "",
+          deliveryCharge: p.delivery_charge,
+          status: formatStatus(p.delivery_status),
+        }));
+        setParcels(mapped);
+      })
+      .catch(() => setParcels([]))
+      .finally(() => setLoading(false));
+  }, []);
 
-  const pendingParcels = demoParcels.filter(
+  // Calculate statistics
+  const totalParcels = parcels.length;
+
+  const pendingParcels = parcels.filter(
     (parcel) => parcel.status === "Pending"
   ).length;
 
-  const inTransitParcels = demoParcels.filter(
+  const inTransitParcels = parcels.filter(
     (parcel) => parcel.status === "In Transit"
   ).length;
 
-  const deliveredParcels = demoParcels.filter(
+  const deliveredParcels = parcels.filter(
     (parcel) => parcel.status === "Delivered"
   ).length;
 
   // Filter and search parcels
   const filteredParcels = useMemo(() => {
-    return demoParcels.filter((parcel) => {
+    return parcels.filter((parcel) => {
       const matchesSearch =
         parcel.trackingId.toLowerCase().includes(search.toLowerCase()) ||
         parcel.receiver.toLowerCase().includes(search.toLowerCase()) ||
@@ -49,7 +77,7 @@ const MyParcels = () => {
 
       return matchesSearch && matchesStatus;
     });
-  }, [search, activeFilter]);
+  }, [parcels, search, activeFilter]);
 
   const filters = [
     "All",

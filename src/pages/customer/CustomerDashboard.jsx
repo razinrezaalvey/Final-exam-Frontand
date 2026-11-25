@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -23,76 +23,80 @@ import {
   MoreHorizontal,
 } from 'lucide-react';
 import { useAuthContext } from '../../context/AuthProvider';
+import api from '../../services/Api';
+
+const formatStatus = (status) =>
+  (status || 'pending')
+    .split('_')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
 
 const CustomerDashboard = () => {
   const { user, logout } = useAuthContext();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [parcels, setParcels] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api
+      .get('/api/v1/parcels?page_size=100')
+      .then((res) => {
+        setParcels(res.data?.data || []);
+      })
+      .catch(() => {
+        setParcels([]);
+      })
+      .finally(() => setLoading(false));
+  }, [user?.id]);
+
+  const totalCount = parcels.length;
+  const inTransitCount = parcels.filter((p) =>
+    ['picked_up', 'in_transit', 'out_for_delivery'].includes(p.delivery_status)
+  ).length;
+  const deliveredCount = parcels.filter((p) => p.delivery_status === 'delivered').length;
+  const pendingCount = parcels.filter((p) =>
+    ['pending', 'confirmed', 'assigned'].includes(p.delivery_status)
+  ).length;
 
   const stats = [
     {
       title: 'Total Parcels',
-      value: '24',
-      change: '+12%',
+      value: String(totalCount).padStart(2, '0'),
+      change: totalCount === 0 ? 'No parcels yet' : 'Your shipments',
       icon: Package,
       color: 'bg-blue-50 text-blue-600',
     },
     {
       title: 'In Transit',
-      value: '08',
+      value: String(inTransitCount).padStart(2, '0'),
       change: 'Currently moving',
       icon: Truck,
       color: 'bg-orange-50 text-orange-600',
     },
     {
       title: 'Delivered',
-      value: '14',
-      change: '+8 this month',
+      value: String(deliveredCount).padStart(2, '0'),
+      change: 'Completed',
       icon: CheckCircle2,
       color: 'bg-emerald-50 text-emerald-600',
     },
     {
       title: 'Pending',
-      value: '02',
+      value: String(pendingCount).padStart(2, '0'),
       change: 'Awaiting pickup',
       icon: Clock,
       color: 'bg-purple-50 text-purple-600',
     },
   ];
 
-  const shipments = [
-    {
-      id: 'SWC-2026-10025',
-      receiver: 'Karim Hasan',
-      destination: 'Chittagong',
-      date: 'Nov 03, 2026',
-      amount: '৳ 250',
-      status: 'In Transit',
-    },
-    {
-      id: 'SWC-2026-10024',
-      receiver: 'Rahim Ahmed',
-      destination: 'Sylhet',
-      date: 'Nov 02, 2026',
-      amount: '৳ 180',
-      status: 'Delivered',
-    },
-    {
-      id: 'SWC-2026-10023',
-      receiver: 'Sabbir Hossain',
-      destination: 'Rajshahi',
-      date: 'Nov 01, 2026',
-      amount: '৳ 220',
-      status: 'Pending',
-    },
-    {
-      id: 'SWC-2026-10022',
-      receiver: 'Nusrat Jahan',
-      destination: 'Khulna',
-      date: 'Oct 30, 2026',
-      amount: '৳ 200',
-      status: 'Delivered',
-    },
-  ];
+  const shipments = parcels.slice(0, 5).map((p) => ({
+    id: p.tracking_number,
+    receiver: p.receiver_name,
+    destination: p.delivery_address,
+    date: p.created_at ? new Date(p.created_at).toLocaleDateString() : '',
+    amount: `৳ ${p.delivery_charge}`,
+    status: formatStatus(p.delivery_status),
+  }));
 
   const menuItems = [
     { label: 'Dashboard', icon: LayoutDashboard, path: '/customer/dashboard' },
@@ -396,41 +400,55 @@ const CustomerDashboard = () => {
                 </thead>
 
                 <tbody className="divide-y divide-slate-100">
-                  {shipments.map((shipment) => (
-                    <tr
-                      key={shipment.id}
-                      className="transition hover:bg-slate-50"
-                    >
-                      <td className="px-6 py-5 text-sm font-bold text-emerald-700">
-                        {shipment.id}
-                      </td>
-
-                      <td className="px-6 py-5 text-sm font-medium text-slate-800">
-                        {shipment.receiver}
-                      </td>
-
-                      <td className="px-6 py-5 text-sm text-slate-600">
-                        <span className="flex items-center gap-2">
-                          <MapPin size={15} className="text-slate-400" />
-                          {shipment.destination}
-                        </span>
-                      </td>
-
-                      <td className="px-6 py-5 text-sm text-slate-600">
-                        {shipment.date}
-                      </td>
-
-                      <td className="px-6 py-5 text-sm font-semibold text-slate-800">
-                        {shipment.amount}
-                      </td>
-
-                      <td className="px-6 py-5">
-                        <span className={`rounded-full px-3 py-1.5 text-xs font-bold ${statusStyle(shipment.status)}`}>
-                          {shipment.status}
-                        </span>
+                  {loading ? (
+                    <tr>
+                      <td colSpan={6} className="px-6 py-8 text-center text-sm text-slate-500">
+                        Loading your shipments...
                       </td>
                     </tr>
-                  ))}
+                  ) : shipments.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="px-6 py-8 text-center text-sm text-slate-500">
+                        No shipments found yet. Book your first parcel!
+                      </td>
+                    </tr>
+                  ) : (
+                    shipments.map((shipment) => (
+                      <tr
+                        key={shipment.id}
+                        className="transition hover:bg-slate-50"
+                      >
+                        <td className="px-6 py-5 text-sm font-bold text-emerald-700">
+                          {shipment.id}
+                        </td>
+
+                        <td className="px-6 py-5 text-sm font-medium text-slate-800">
+                          {shipment.receiver}
+                        </td>
+
+                        <td className="px-6 py-5 text-sm text-slate-600">
+                          <span className="flex items-center gap-2">
+                            <MapPin size={15} className="text-slate-400" />
+                            {shipment.destination}
+                          </span>
+                        </td>
+
+                        <td className="px-6 py-5 text-sm text-slate-600">
+                          {shipment.date}
+                        </td>
+
+                        <td className="px-6 py-5 text-sm font-semibold text-slate-800">
+                          {shipment.amount}
+                        </td>
+
+                        <td className="px-6 py-5">
+                          <span className={`rounded-full px-3 py-1.5 text-xs font-bold ${statusStyle(shipment.status)}`}>
+                            {shipment.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>

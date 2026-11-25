@@ -1,6 +1,6 @@
 
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Package,
@@ -26,6 +26,8 @@ import {
   UserRound,
   ShieldCheck,
 } from "lucide-react";
+import { useAuthContext } from "../../context/AuthProvider";
+import api from "../../services/Api";
 
 const stats = [
   {
@@ -169,6 +171,23 @@ const StatusBadge = ({ status }) => {
 };
 
 const AdminDashboard = () => {
+  const { user, logout } = useAuthContext();
+  const navigate = useNavigate();
+  const [liveParcels, setLiveParcels] = useState([]);
+  const [liveUsers, setLiveUsers] = useState([]);
+
+  useEffect(() => {
+    api.get("/api/v1/parcels?page_size=100")
+      .then((res) => setLiveParcels(res.data?.data || []))
+      .catch(() => setLiveParcels([]));
+    api.get("/api/v1/users?page_size=100")
+      .then((res) => setLiveUsers(res.data?.data || []))
+      .catch(() => setLiveUsers([]));
+  }, []);
+
+  const adminName = user?.full_name || "Admin";
+  const adminInitials = adminName.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
+
   return (
     <div className="min-h-screen bg-slate-50 lg:flex">
 
@@ -255,15 +274,21 @@ const AdminDashboard = () => {
         <div className="border-t border-white/10 p-4">
           <div className="flex items-center gap-3 rounded-xl bg-white/5 p-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 font-bold">
-              AD
+              {adminInitials}
             </div>
 
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-bold">Admin User</p>
-              <p className="text-xs text-slate-400">Super Admin</p>
+              <p className="truncate text-sm font-bold">{adminName}</p>
+              <p className="text-xs text-slate-400">Admin</p>
             </div>
 
-            <LogOut size={17} className="text-slate-400" />
+            <button
+              onClick={() => { logout(); navigate("/login"); }}
+              title="Logout"
+              className="text-slate-400 hover:text-red-400 transition"
+            >
+              <LogOut size={17} />
+            </button>
           </div>
         </div>
       </aside>
@@ -296,8 +321,8 @@ const AdminDashboard = () => {
 
             <div className="flex items-center gap-3 border-l border-slate-200 pl-3">
               <div className="hidden text-right sm:block">
-                <p className="text-sm font-bold text-slate-800">Admin User</p>
-                <p className="text-xs text-slate-400">Super Admin</p>
+                <p className="text-sm font-bold text-slate-800">{adminName}</p>
+                <p className="text-xs text-slate-400">Admin</p>
               </div>
 
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 font-bold text-emerald-700">

@@ -1,6 +1,6 @@
 
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Package,
   Clock,
@@ -21,71 +21,83 @@ import {
   Star,
 } from "lucide-react";
 import { useAuthContext } from "../../context/AuthProvider";
+import api from "../../services/Api";
+
+const formatStatus = (status) =>
+  (status || "pending")
+    .split("_")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
 
 const DeliveryDashboard = () => {
   const { user, logout } = useAuthContext();
+  const navigate = useNavigate();
+  const [parcels, setParcels] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const firstName = user?.full_name?.split(' ')[0] || 'Agent';
   const initials = user?.full_name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'AG';
+
+  useEffect(() => {
+    api
+      .get("/api/v1/parcels?page_size=100")
+      .then((res) => setParcels(res.data?.data || []))
+      .catch(() => setParcels([]))
+      .finally(() => setLoading(false));
+  }, [user?.id]);
+
+  const totalCount = parcels.length;
+  const pendingCount = parcels.filter((p) =>
+    ["pending", "confirmed", "assigned"].includes(p.delivery_status)
+  ).length;
+  const inTransitCount = parcels.filter((p) =>
+    ["picked_up", "in_transit", "out_for_delivery"].includes(p.delivery_status)
+  ).length;
+  const deliveredCount = parcels.filter((p) => p.delivery_status === "delivered").length;
+  const totalEarnings = parcels
+    .filter((p) => p.delivery_status === "delivered")
+    .reduce((sum, p) => sum + Number(p.delivery_charge || 0), 0);
+
   const stats = [
     {
       title: "Assigned Parcels",
-      value: "24",
+      value: String(totalCount).padStart(2, "0"),
       icon: Package,
       color: "text-blue-600",
       bg: "bg-blue-50",
     },
     {
       title: "Pending Delivery",
-      value: "08",
+      value: String(pendingCount).padStart(2, "0"),
       icon: Clock,
       color: "text-amber-600",
       bg: "bg-amber-50",
     },
     {
       title: "In Transit",
-      value: "06",
+      value: String(inTransitCount).padStart(2, "0"),
       icon: Truck,
       color: "text-purple-600",
       bg: "bg-purple-50",
     },
     {
       title: "Delivered",
-      value: "10",
+      value: String(deliveredCount).padStart(2, "0"),
       icon: CheckCircle2,
       color: "text-emerald-600",
       bg: "bg-emerald-50",
     },
   ];
 
-  const tasks = [
-    {
-      id: "SWC-2026-10025",
-      receiver: "Karim Hasan",
-      phone: "01812345678",
-      address: "Agrabad, Chattogram",
-      amount: 1500,
-      status: "In Transit",
-      type: "Electronics",
-    },
-    {
-      id: "SWC-2026-10023",
-      receiver: "Sabbir Ahmed",
-      phone: "01712345678",
-      address: "Uttara, Dhaka",
-      amount: 800,
-      status: "Pending",
-      type: "Documents",
-    },
-    {
-      id: "SWC-2026-10021",
-      receiver: "Nusrat Jahan",
-      phone: "01912345678",
-      address: "Mirpur, Dhaka",
-      amount: 1200,
-      status: "Picked Up",
-      type: "Clothing",
-    },
-  ];
+  const tasks = parcels.slice(0, 5).map((p) => ({
+    id: p.tracking_number,
+    receiver: p.receiver_name,
+    phone: p.receiver_phone,
+    address: p.delivery_address,
+    amount: p.cod_amount || 0,
+    status: formatStatus(p.delivery_status),
+    type: formatStatus(p.parcel_type),
+  }));
 
   const getStatusStyle = (status) => {
     switch (status) {
@@ -170,13 +182,13 @@ const DeliveryDashboard = () => {
         </nav>
 
         <div className="p-4 border-t border-slate-800">
-          <Link
-            to="/login"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-slate-800 transition"
+          <button
+            onClick={() => { logout(); navigate("/login"); }}
+            className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-slate-800 transition"
           >
             <LogOut size={19} />
             Logout
-          </Link>
+          </button>
         </div>
       </aside>
 
@@ -235,16 +247,16 @@ const DeliveryDashboard = () => {
 
               <div className="bg-white/10 border border-white/10 rounded-2xl p-5 min-w-48">
                 <p className="text-slate-300 text-sm">
-                  Today's Earnings
+                  Total Earnings
                 </p>
 
                 <h3 className="text-3xl font-bold mt-2">
-                  ৳850
+                  ৳{totalEarnings}
                 </h3>
 
                 <div className="flex items-center gap-2 text-emerald-400 text-xs mt-3">
                   <TrendingUp size={15} />
-                  Demo earnings
+                  Delivered parcels
                 </div>
               </div>
             </div>
@@ -363,50 +375,64 @@ const DeliveryDashboard = () => {
                 </thead>
 
                 <tbody>
-                  {tasks.map((task) => (
-                    <tr key={task.id} className="hover:bg-slate-50">
-                      <td>
-                        <span className="font-bold text-emerald-700">
-                          {task.id}
-                        </span>
-                        <p className="text-xs text-slate-400 mt-1">
-                          {task.type}
-                        </p>
-                      </td>
-
-                      <td>
-                        <p className="font-semibold text-slate-800">
-                          {task.receiver}
-                        </p>
-                        <p className="text-xs text-slate-400">
-                          {task.phone}
-                        </p>
-                      </td>
-
-                      <td className="text-slate-600">
-                        {task.address}
-                      </td>
-
-                      <td className="font-semibold text-slate-700">
-                        ৳{task.amount}
-                      </td>
-
-                      <td>
-                        <span className={`px-3 py-1.5 rounded-full text-xs font-semibold ${getStatusStyle(task.status)}`}>
-                          {task.status}
-                        </span>
-                      </td>
-
-                      <td>
-                        <Link
-                          to="/agent/tasks"
-                          className="text-emerald-600 hover:text-emerald-800 font-semibold text-sm"
-                        >
-                          View Task
-                        </Link>
+                  {loading ? (
+                    <tr>
+                      <td colSpan={6} className="text-center py-8 text-slate-500">
+                        Loading delivery tasks...
                       </td>
                     </tr>
-                  ))}
+                  ) : tasks.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="text-center py-8 text-slate-500">
+                        No delivery tasks assigned yet.
+                      </td>
+                    </tr>
+                  ) : (
+                    tasks.map((task) => (
+                      <tr key={task.id} className="hover:bg-slate-50">
+                        <td>
+                          <span className="font-bold text-emerald-700">
+                            {task.id}
+                          </span>
+                          <p className="text-xs text-slate-400 mt-1">
+                            {task.type}
+                          </p>
+                        </td>
+
+                        <td>
+                          <p className="font-semibold text-slate-800">
+                            {task.receiver}
+                          </p>
+                          <p className="text-xs text-slate-400">
+                            {task.phone}
+                          </p>
+                        </td>
+
+                        <td className="text-slate-600">
+                          {task.address}
+                        </td>
+
+                        <td className="font-semibold text-slate-700">
+                          ৳{task.amount}
+                        </td>
+
+                        <td>
+                          <span className={`px-3 py-1.5 rounded-full text-xs font-semibold ${getStatusStyle(task.status)}`}>
+                            {task.status}
+                          </span>
+                        </td>
+
+                        <td>
+                          <Link
+                            to="/agent/tasks"
+                            className="text-emerald-600 hover:text-emerald-800 font-semibold text-sm"
+                          >
+                            View Task
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>

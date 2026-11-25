@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   UserRound,
   Mail,
@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../../context/AuthProvider";
+import api from "../../services/Api";
 
 // Input Component - Outside AgentProfile
 const InputField = ({
@@ -71,24 +72,32 @@ const InfoItem = ({ icon: Icon, label, value }) => (
 );
 
 const AgentProfile = () => {
-  const { user } = useAuthContext();
+  const { user, updateUser } = useAuthContext();
 
-  const initialProfile = {
-    name: user?.full_name || "",
-    email: user?.email || "",
-    phone: user?.phone || "",
-    address: "",
+  const buildProfile = (u) => ({
+    name: u?.full_name || "",
+    email: u?.email || "",
+    phone: u?.phone || "",
+    address: u?.address || "",
     city: "",
     postalCode: "",
-    agentId: `AGT-${user?.id || ""}`,
+    agentId: u?.id ? `AGT-${u.id}` : "",
     vehicleType: "",
     vehicleNumber: "",
-    joiningDate: "",
-  };
+    joiningDate: u?.created_at ? new Date(u.created_at).toLocaleDateString() : "",
+  });
 
-  const [profile, setProfile] = useState(initialProfile);
-  const [formData, setFormData] = useState(initialProfile);
+  const [profile, setProfile] = useState(() => buildProfile(user));
+  const [formData, setFormData] = useState(() => buildProfile(user));
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const next = buildProfile(user);
+      setProfile(next);
+      setFormData(next);
+    }
+  }, [user]);
 
   // Handle Input Change
   const handleChange = (e) => {
@@ -113,20 +122,9 @@ const AgentProfile = () => {
   };
 
   // Save Profile
-  const handleSave = () => {
-    if (
-      !formData.name.trim() ||
-      !formData.email.trim() ||
-      !formData.phone.trim() ||
-      !formData.address.trim() ||
-      !formData.city.trim()
-    ) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      toast.error("Please enter a valid email address");
+  const handleSave = async () => {
+    if (!formData.name.trim() || !formData.phone.trim()) {
+      toast.error("Please fill in your name and phone number");
       return;
     }
 
@@ -135,10 +133,21 @@ const AgentProfile = () => {
       return;
     }
 
-    setProfile({ ...formData });
-    setIsEditing(false);
-
-    toast.success("Profile updated successfully!");
+    try {
+      const res = await api.put("/api/v1/users/me", {
+        full_name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        address: formData.address.trim() || null,
+      });
+      if (res.data) {
+        updateUser(res.data);
+      }
+      setProfile({ ...formData });
+      setIsEditing(false);
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      toast.error(error?.response?.data?.detail || "Failed to update profile");
+    }
   };
 
   return (
