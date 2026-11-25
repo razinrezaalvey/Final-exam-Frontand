@@ -12,23 +12,24 @@ import {
     Save,
     X,
     Package,
-    Camera,
     ArrowLeft,
     CheckCircle2,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { useAuthContext } from "../../context/AuthProvider";
 
 const CustomerProfile = () => {
+    const { user } = useAuthContext();
     const [isEditing, setIsEditing] = useState(false);
 
     const [profile, setProfile] = useState({
-        name: "Rahim Ahmed",
-        email: "rahim@example.com",
-        phone: "01712345678",
-        address: "Dhanmondi, Dhaka, Bangladesh",
-        city: "Dhaka",
-        postalCode: "1205",
-        joinedDate: "October 2026",
+        name: user?.full_name || "",
+        email: user?.email || "",
+        phone: user?.phone || "",
+        address: "",
+        city: "",
+        postalCode: "",
+        joinedDate: "",
     });
 
     const [formData, setFormData] = useState(profile);
