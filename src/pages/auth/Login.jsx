@@ -21,6 +21,7 @@ const Login = () => {
     const { login } = useAuthContext();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
     const [formData, setFormData] = useState({
         email: "",
@@ -46,6 +47,7 @@ const Login = () => {
         }
 
         setLoading(true);
+        setErrorMsg("");
 
         try {
             const payload = {
@@ -64,7 +66,13 @@ const Login = () => {
             else if (user.role === "agent") navigate("/agent/dashboard");
             else navigate("/customer/dashboard");
         } catch (error) {
-            const msg = error?.response?.data?.detail || "Login failed. Check your credentials.";
+            const data = error?.response?.data;
+            const msg =
+                (typeof data?.detail === "string" && data.detail) ||
+                data?.message ||
+                data?.error ||
+                "Invalid email or password.";
+            setErrorMsg(msg);
             toast.error(msg);
         } finally {
             setLoading(false);
@@ -168,6 +176,11 @@ const Login = () => {
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-6">
+                            {errorMsg && (
+                                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                                    {errorMsg}
+                                </div>
+                            )}
 
                             {/* Email */}
                             <div>
