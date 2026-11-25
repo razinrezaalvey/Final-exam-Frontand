@@ -20,8 +20,12 @@ import {
   Bell,
   Star,
 } from "lucide-react";
+import { useAuthContext } from "../../context/AuthProvider";
 
 const DeliveryDashboard = () => {
+  const { user, logout } = useAuthContext();
+  const firstName = user?.full_name?.split(' ')[0] || 'Agent';
+  const initials = user?.full_name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'AG';
   const stats = [
     {
       title: "Assigned Parcels",
@@ -115,10 +119,10 @@ const DeliveryDashboard = () => {
 
         <div className="p-5 border-b border-slate-800 flex items-center gap-3">
           <div className="w-11 h-11 rounded-xl bg-emerald-600 flex items-center justify-center font-bold text-lg">
-            R
+            {initials}
           </div>
           <div>
-            <h3 className="font-semibold text-sm">Rahim Ahmed</h3>
+            <h3 className="font-semibold text-sm">{user?.full_name || 'Agent'}</h3>
             <p className="text-xs text-slate-400">Delivery Agent</p>
           </div>
         </div>
@@ -200,7 +204,7 @@ const DeliveryDashboard = () => {
             </button>
 
             <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
-              R
+              {initials}
             </div>
           </div>
         </header>
@@ -216,7 +220,7 @@ const DeliveryDashboard = () => {
                 </p>
 
                 <h2 className="text-2xl md:text-3xl font-bold">
-                  Welcome back, Rahim! 👋
+                   Welcome back, {firstName}! 👋
                 </h2>
 
                 <p className="text-slate-300 mt-3 max-w-xl">
