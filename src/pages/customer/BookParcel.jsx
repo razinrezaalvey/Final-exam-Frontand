@@ -33,6 +33,51 @@ const initialForm = {
   codAmount: '',
 };
 
+const InputField = ({
+  label,
+  name,
+  placeholder,
+  icon: Icon,
+  type = 'text',
+  value,
+  onChange,
+  error,
+}) => (
+  <div>
+    <label className="mb-2 block text-sm font-semibold text-slate-700">
+      {label} <span className="text-red-500">*</span>
+    </label>
+
+    <div className="relative">
+      {Icon && (
+        <Icon
+          size={18}
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+        />
+      )}
+
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        min={type === 'number' ? '0.1' : undefined}
+        step={type === 'number' ? '0.1' : undefined}
+        className={`w-full rounded-xl border bg-white py-3.5 ${
+          Icon ? 'pl-11' : 'px-4'
+        } pr-4 text-sm text-slate-800 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 ${
+          error ? 'border-red-400' : 'border-slate-200'
+        }`}
+      />
+    </div>
+
+    {error && (
+      <p className="mt-1.5 text-xs text-red-500">{error}</p>
+    )}
+  </div>
+);
+
 const BookParcel = () => {
   const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState({});
@@ -150,48 +195,6 @@ const BookParcel = () => {
     setErrors({});
     setSuccess(false);
   };
-
-  const InputField = ({
-    label,
-    name,
-    placeholder,
-    icon: Icon,
-    type = 'text',
-  }) => (
-    <div>
-      <label className="mb-2 block text-sm font-semibold text-slate-700">
-        {label} <span className="text-red-500">*</span>
-      </label>
-
-      <div className="relative">
-        {Icon && (
-          <Icon
-            size={18}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-          />
-        )}
-
-        <input
-          type={type}
-          name={name}
-          value={formData[name]}
-          onChange={handleChange}
-          placeholder={placeholder}
-          min={type === 'number' ? '0.1' : undefined}
-          step={type === 'number' ? '0.1' : undefined}
-          className={`w-full rounded-xl border bg-white py-3.5 ${
-            Icon ? 'pl-11' : 'px-4'
-          } pr-4 text-sm text-slate-800 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 ${
-            errors[name] ? 'border-red-400' : 'border-slate-200'
-          }`}
-        />
-      </div>
-
-      {errors[name] && (
-        <p className="mt-1.5 text-xs text-red-500">{errors[name]}</p>
-      )}
-    </div>
-  );
 
   if (success) {
     return (
@@ -317,6 +320,9 @@ const BookParcel = () => {
                     name="senderName"
                     placeholder="Enter sender name"
                     icon={User}
+                    value={formData.senderName}
+                    onChange={handleChange}
+                    error={errors.senderName}
                   />
 
                   <InputField
@@ -324,6 +330,9 @@ const BookParcel = () => {
                     name="senderPhone"
                     placeholder="01XXXXXXXXX"
                     icon={Phone}
+                    value={formData.senderPhone}
+                    onChange={handleChange}
+                    error={errors.senderPhone}
                   />
 
                   <div className="md:col-span-2">
@@ -332,6 +341,9 @@ const BookParcel = () => {
                       name="senderAddress"
                       placeholder="House, road, area, city"
                       icon={MapPin}
+                      value={formData.senderAddress}
+                      onChange={handleChange}
+                      error={errors.senderAddress}
                     />
                   </div>
                 </div>
@@ -359,6 +371,9 @@ const BookParcel = () => {
                     name="receiverName"
                     placeholder="Enter receiver name"
                     icon={User}
+                    value={formData.receiverName}
+                    onChange={handleChange}
+                    error={errors.receiverName}
                   />
 
                   <InputField
@@ -366,6 +381,9 @@ const BookParcel = () => {
                     name="receiverPhone"
                     placeholder="01XXXXXXXXX"
                     icon={Phone}
+                    value={formData.receiverPhone}
+                    onChange={handleChange}
+                    error={errors.receiverPhone}
                   />
 
                   <div className="md:col-span-2">
@@ -374,6 +392,9 @@ const BookParcel = () => {
                       name="receiverAddress"
                       placeholder="House, road, area, city"
                       icon={MapPin}
+                      value={formData.receiverAddress}
+                      onChange={handleChange}
+                      error={errors.receiverAddress}
                     />
                   </div>
                 </div>
@@ -421,6 +442,9 @@ const BookParcel = () => {
                     placeholder="Enter weight"
                     icon={Weight}
                     type="number"
+                    value={formData.weight}
+                    onChange={handleChange}
+                    error={errors.weight}
                   />
 
                   <div className="md:col-span-2">
