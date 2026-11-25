@@ -1,6 +1,9 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../services/Api";
+import toast from "react-hot-toast";
+import { useAuthContext } from "../../context/AuthProvider";
 import {
     Package,
     Mail,
@@ -14,6 +17,8 @@ import {
 } from "lucide-react";
 
 const Login = () => {
+    const navigate = useNavigate();
+    const { login } = useAuthContext();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -43,16 +48,24 @@ const Login = () => {
         setLoading(true);
 
         try {
-            // FastAPI login API will be connected here.
             const payload = {
                 email: formData.email.trim().toLowerCase(),
                 password: formData.password,
-                remember: formData.remember,
             };
 
-            console.log("Login payload:", payload);
+            const res = await api.post("/api/v1/auth/login", payload);
+            const { access_token, user } = res.data.data;
 
-            alert("Login form validated! Backend connection is pending.");
+            login(user, access_token);
+            toast.success(`Welcome back, ${user.full_name}!`);
+
+            // Redirect based on role
+            if (user.role === "admin") navigate("/admin/dashboard");
+            else if (user.role === "agent") navigate("/agent/dashboard");
+            else navigate("/customer/dashboard");
+        } catch (error) {
+            const msg = error?.response?.data?.detail || "Login failed. Check your credentials.";
+            toast.error(msg);
         } finally {
             setLoading(false);
         }
